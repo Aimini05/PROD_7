@@ -631,19 +631,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Menu
   options:
   - label: Start Game
-    focusClip: {fileID: 0}
+    focusClip: {fileID: 8300000, guid: eb34011ea8c8e664ca2f8b681e82a1b1, type: 3}
     activateClip: {fileID: 0}
     onSelect:
       m_PersistentCalls:
         m_Calls: []
   - label: Settings
-    focusClip: {fileID: 0}
+    focusClip: {fileID: 8300000, guid: bb751292f00b02c4db1f21c54f4fb77c, type: 3}
     activateClip: {fileID: 0}
     onSelect:
       m_PersistentCalls:
         m_Calls: []
   - label: Exit Game
-    focusClip: {fileID: 0}
+    focusClip: {fileID: 8300000, guid: 72370b36158fa404ebf9ac8cf1ee00a1, type: 3}
     activateClip: {fileID: 0}
     onSelect:
       m_PersistentCalls:
