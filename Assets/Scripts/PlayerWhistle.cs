@@ -4,7 +4,7 @@ public class PlayerWhistle : MonoBehaviour
 {
     [Header("Audio")]
     public AudioSource audioSource;
-    public AudioClip whistleSound;
+    public AudioClip[] whistleSounds; // dra in dina 3 ljud här
 
     [Header("Monster")]
     public MonsterMovement monster;
@@ -22,10 +22,11 @@ public class PlayerWhistle : MonoBehaviour
 
     void Whistle()
     {
-        // Spela visselljud
-        if (whistleSound != null && audioSource != null)
+        // Spela ett slumpat visselljud
+        if (whistleSounds != null && whistleSounds.Length > 0 && audioSource != null)
         {
-            audioSource.PlayOneShot(whistleSound);
+            AudioClip clip = whistleSounds[Random.Range(0, whistleSounds.Length)];
+            audioSource.PlayOneShot(clip);
         }
 
         // Berätta för monstret var spelaren är

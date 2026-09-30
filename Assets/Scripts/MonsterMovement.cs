@@ -12,6 +12,7 @@ public class MonsterMovement : MonoBehaviour
     [Header("Whistle Reaction")]
     public int stepsTowardsPlayer = 3;
     public float whistleStepSpeed = 0.4f;
+    public float whistleGrowlDelay = 3f;
 
     [Header("Audio")]
     public AudioSource audioSource;
@@ -70,17 +71,24 @@ public class MonsterMovement : MonoBehaviour
         }
     }
 
+    IEnumerator PlayGrowlAfterDelay()
+    {
+        yield return new WaitForSeconds(whistleGrowlDelay);
+
+        if (whistleResponseGrowl != null && audioSource != null && !playerDead)
+        {
+            audioSource.PlayOneShot(whistleResponseGrowl);
+        }
+    }
+
     IEnumerator ReactToWhistle(Vector3 playerPosition)
     {
         reactingToWhistle = true;
 
         Debug.Log("Monster heard the whistle!");
 
-        // Monstret morrar när det hör visslingen
-        if (whistleResponseGrowl != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(whistleResponseGrowl);
-        }
+        // Monstret morrar när det hör visslingen (med fördröjning)
+        StartCoroutine(PlayGrowlAfterDelay());
 
         // Ta tre steg mot platsen där spelaren visslade
         for (int i = 0; i < stepsTowardsPlayer; i++)

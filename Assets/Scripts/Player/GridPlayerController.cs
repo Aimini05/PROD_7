@@ -8,7 +8,7 @@ namespace AmazingMaze.Player
     * First-person, tile-by-tile movement for the  prototype.
     * The player can only face the four cardinal directions.
     * Up arrow steps forward, left/right arrows turn, and Space jumps in place.
-    * E opens the door directly ahead. No key is required.
+    * F interacts with the object directly ahead. Doors do not require a key.
     * Steps and turns are instant; short delays keep actions separated.
     */
     [DisallowMultipleComponent]
@@ -50,6 +50,8 @@ namespace AmazingMaze.Player
         public event Action<int> Turned;
         public event Action<Vector3> MoveBlocked;
         public event Action<SimpleDoor> DoorOpened;
+        // Shared event for successful interactions with any Interactable subclass.
+        public event Action<Interactable> Interacted;
 
         public bool IsBusy => isJumping || actionTimeRemaining > 0f;
         // Editor tools read these values so their grid matches movement exactly.
@@ -103,9 +105,9 @@ namespace AmazingMaze.Player
             }
 
             // One action per key press; holding a key does not repeat it.
-            // If several keys are pressed together, E takes priority, then Space/left/right/up.
-            if (keyboard.eKey.wasPressedThisFrame) {
-                TryOpenDoor();
+            // If several keys are pressed together, F takes priority, then Space/left/right/up.
+            if (keyboard.fKey.wasPressedThisFrame) {
+                TryInteract();
             }
             else if (keyboard.spaceKey.wasPressedThisFrame) {
                 jumpStart = transform.position;
@@ -204,16 +206,17 @@ namespace AmazingMaze.Player
             return true;
         }
 
-        private void TryOpenDoor() {
-            // Use the first solid object in front of the player: never open through a wall.
+        private void TryInteract() {
+            // Use the first solid object ahead, so interaction cannot pass through walls.
             Physics.SyncTransforms();
             Vector3 origin = transform.position + Vector3.up * (collisionHeight * 0.5f);
             if (!Physics.Raycast(origin, DirectionFromHeading(HeadingQuarterTurns), out RaycastHit hit,
                 interactionDistance, obstacleLayers, QueryTriggerInteraction.Ignore)) return;
-            SimpleDoor door = hit.collider.GetComponentInParent<SimpleDoor>();
-            if (door == null || door.IsOpen) return;
-            door.Open();
-            DoorOpened?.Invoke(door);
+            Interactable target = hit.collider.GetComponentInParent<Interactable>();
+            if (target == null || !target.isActiveAndEnabled || !target.Interact(this)) return;
+            Interacted?.Invoke(target);
+            // Preserve the existing door-specific sound hook for scripts already using it.
+            if (target is SimpleDoor door) DoorOpened?.Invoke(door);
         }
 
         private void Turn(int direction) {

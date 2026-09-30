@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Dog : MonoBehaviour
 {
@@ -7,9 +8,19 @@ public class Dog : MonoBehaviour
     public AudioClip barkSound;
     public AudioClip collisionSound;
 
+    [Header("Timing")]
+    public float barkDelay = 3f;
+
     // När spelaren visslar
     public void HearWhistle()
     {
+        StartCoroutine(BarkAfterDelay());
+    }
+
+    IEnumerator BarkAfterDelay()
+    {
+        yield return new WaitForSeconds(barkDelay);
+
         if (audioSource != null && barkSound != null)
         {
             audioSource.PlayOneShot(barkSound);
@@ -18,17 +29,5 @@ public class Dog : MonoBehaviour
         Debug.Log("Dog heard the whistle and barked!");
     }
 
-    // När spelaren kolliderar med hunden
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (audioSource != null && collisionSound != null)
-            {
-                audioSource.PlayOneShot(collisionSound);
-            }
-
-            Debug.Log("Player found the dog!");
-        }
-    }
+    // OnCollisionEnter är oförändrad
 }
