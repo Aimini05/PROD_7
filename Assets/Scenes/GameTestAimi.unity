@@ -17173,6 +17173,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2400000003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17197,6 +17202,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2400000005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17209,6 +17219,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2400000006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17221,6 +17236,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2400000007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17233,6 +17253,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2400000008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17257,6 +17282,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2400000010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17269,6 +17299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2400000011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17281,6 +17316,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 8300000, guid: 26a045384bd78ee49bdd719daf190f6b, type: 3}
+  lockedSound: {fileID: 8300000, guid: 2d502266451943641990f824788ce8bc, type: 3}
 --- !u!114 &2400000012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17293,6 +17333,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2400000013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17329,6 +17374,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2400000016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17341,6 +17391,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2400000017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17353,6 +17408,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2400000018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17365,6 +17425,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2400000019
 MonoBehaviour:
   m_ObjectHideFlags: 0
