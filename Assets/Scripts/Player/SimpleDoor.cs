@@ -4,11 +4,18 @@ using UnityEngine;
 namespace AmazingMaze.Player
 {
     [DisallowMultipleComponent]
-    public sealed class SimpleDoor : MonoBehaviour
+    public sealed class SimpleDoor : Interactable
     {
         public bool IsOpen { get; private set; }
         // A sound script can subscribe here to announce that the passage is open.
         public event Action Opened;
+
+        public override bool Interact(GridPlayerController player)
+        {
+            if (IsOpen) return false;
+            Open();
+            return true;
+        }
 
         public void Open()
         {
