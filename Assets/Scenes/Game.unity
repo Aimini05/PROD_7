@@ -900,6 +900,7 @@ GameObject:
   - component: {fileID: 115567955}
   - component: {fileID: 115567954}
   - component: {fileID: 115567953}
+  - component: {fileID: 115567956}
   m_Layer: 0
   m_Name: Floor_Grass
   m_TagString: Untagged
@@ -1000,6 +1001,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 115567951}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &115567956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115567951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b341963da6e54ad4929e2aa0b4582f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.WalkableSurface
 --- !u!1 &122173721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1328,6 +1341,7 @@ GameObject:
   - component: {fileID: 140299412}
   - component: {fileID: 140299411}
   - component: {fileID: 140299410}
+  - component: {fileID: 140299414}
   m_Layer: 0
   m_Name: Step
   m_TagString: Untagged
@@ -1428,6 +1442,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 296187110}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &140299414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140299409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b341963da6e54ad4929e2aa0b4582f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.WalkableSurface
 --- !u!1 &162790345
 GameObject:
   m_ObjectHideFlags: 0
@@ -4068,6 +4094,7 @@ GameObject:
   - component: {fileID: 511172834}
   - component: {fileID: 511172833}
   - component: {fileID: 511172832}
+  - component: {fileID: 511172835}
   m_Layer: 0
   m_Name: Door (6)
   m_TagString: Untagged
@@ -4168,6 +4195,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 511172830}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &511172835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511172830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!1 &513579198
 GameObject:
   m_ObjectHideFlags: 0
@@ -4180,6 +4224,7 @@ GameObject:
   - component: {fileID: 513579202}
   - component: {fileID: 513579201}
   - component: {fileID: 513579200}
+  - component: {fileID: 513579203}
   m_Layer: 0
   m_Name: Floor (2)
   m_TagString: Untagged
@@ -4280,6 +4325,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513579198}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &513579203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513579198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b341963da6e54ad4929e2aa0b4582f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.WalkableSurface
 --- !u!1 &516086364
 GameObject:
   m_ObjectHideFlags: 0
@@ -4448,6 +4505,7 @@ GameObject:
   - component: {fileID: 551456927}
   - component: {fileID: 551456926}
   - component: {fileID: 551456925}
+  - component: {fileID: 551456928}
   m_Layer: 0
   m_Name: Door (10)
   m_TagString: Untagged
@@ -4548,6 +4606,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 551456923}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &551456928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551456923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!1 &556019744
 GameObject:
   m_ObjectHideFlags: 0
@@ -5015,6 +5090,7 @@ GameObject:
   - component: {fileID: 631015443}
   - component: {fileID: 631015442}
   - component: {fileID: 631015441}
+  - component: {fileID: 631015444}
   m_Layer: 0
   m_Name: Door (11)
   m_TagString: Untagged
@@ -5115,6 +5191,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 631015439}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &631015444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631015439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!1 &645959941
 GameObject:
   m_ObjectHideFlags: 0
@@ -5633,6 +5726,7 @@ GameObject:
   - component: {fileID: 688474790}
   - component: {fileID: 688474789}
   - component: {fileID: 688474788}
+  - component: {fileID: 688474791}
   m_Layer: 0
   m_Name: Door (12)
   m_TagString: Untagged
@@ -5733,6 +5827,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 688474786}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &688474791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688474786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!1 &700903012
 GameObject:
   m_ObjectHideFlags: 0
@@ -5745,6 +5856,7 @@ GameObject:
   - component: {fileID: 700903016}
   - component: {fileID: 700903015}
   - component: {fileID: 700903014}
+  - component: {fileID: 700903017}
   m_Layer: 0
   m_Name: Door (4)
   m_TagString: Untagged
@@ -5845,6 +5957,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 700903012}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &700903017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700903012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!1 &713622064
 GameObject:
   m_ObjectHideFlags: 0
@@ -5857,6 +5986,7 @@ GameObject:
   - component: {fileID: 713622067}
   - component: {fileID: 713622066}
   - component: {fileID: 713622065}
+  - component: {fileID: 713622069}
   m_Layer: 0
   m_Name: Step (1)
   m_TagString: Untagged
@@ -5957,6 +6087,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 296187110}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &713622069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713622064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b341963da6e54ad4929e2aa0b4582f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.WalkableSurface
 --- !u!114 &785568088 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 208788861682389224, guid: 4d677f902088d8b4e978fdb9a98806b3, type: 3}
@@ -5980,6 +6122,7 @@ GameObject:
   - component: {fileID: 788209110}
   - component: {fileID: 788209109}
   - component: {fileID: 788209108}
+  - component: {fileID: 788209111}
   m_Layer: 0
   m_Name: Door (8)
   m_TagString: Untagged
@@ -6080,6 +6223,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 788209106}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &788209111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788209106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!1 &788497985
 GameObject:
   m_ObjectHideFlags: 0
@@ -7404,7 +7564,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993767847}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &993767849
 Camera:
   m_ObjectHideFlags: 0
@@ -7412,7 +7572,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993767847}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -8278,6 +8438,7 @@ GameObject:
   - component: {fileID: 1083747312}
   - component: {fileID: 1083747311}
   - component: {fileID: 1083747310}
+  - component: {fileID: 1083747313}
   m_Layer: 0
   m_Name: Door (2)
   m_TagString: Untagged
@@ -8378,6 +8539,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083747308}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1083747313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083747308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!1 &1087042314
 GameObject:
   m_ObjectHideFlags: 0
@@ -10510,6 +10688,7 @@ GameObject:
   - component: {fileID: 1229094301}
   - component: {fileID: 1229094300}
   - component: {fileID: 1229094299}
+  - component: {fileID: 1229094303}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -10610,6 +10789,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 516086365}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1229094303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229094298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!1 &1242854342
 GameObject:
   m_ObjectHideFlags: 0
@@ -10734,6 +10930,7 @@ GameObject:
   - component: {fileID: 1257890247}
   - component: {fileID: 1257890246}
   - component: {fileID: 1257890245}
+  - component: {fileID: 1257890248}
   m_Layer: 0
   m_Name: Door (5)
   m_TagString: Untagged
@@ -10834,6 +11031,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1257890243}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1257890248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257890243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!1 &1262489259
 GameObject:
   m_ObjectHideFlags: 0
@@ -11768,6 +11982,7 @@ GameObject:
   - component: {fileID: 1317819740}
   - component: {fileID: 1317819739}
   - component: {fileID: 1317819738}
+  - component: {fileID: 1317819741}
   m_Layer: 0
   m_Name: Floor (1)
   m_TagString: Untagged
@@ -11868,6 +12083,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1317819736}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1317819741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317819736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b341963da6e54ad4929e2aa0b4582f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.WalkableSurface
 --- !u!1 &1322580252
 GameObject:
   m_ObjectHideFlags: 0
@@ -13809,6 +14036,7 @@ GameObject:
   - component: {fileID: 1606585611}
   - component: {fileID: 1606585610}
   - component: {fileID: 1606585609}
+  - component: {fileID: 1606585613}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -13909,6 +14137,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 860296891}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1606585613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606585608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b341963da6e54ad4929e2aa0b4582f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.WalkableSurface
 --- !u!1 &1609226204
 GameObject:
   m_ObjectHideFlags: 0
@@ -13921,6 +14161,7 @@ GameObject:
   - component: {fileID: 1609226208}
   - component: {fileID: 1609226207}
   - component: {fileID: 1609226206}
+  - component: {fileID: 1609226209}
   m_Layer: 0
   m_Name: Door (7)
   m_TagString: Untagged
@@ -14021,6 +14262,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609226204}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1609226209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609226204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!1 &1637575356
 GameObject:
   m_ObjectHideFlags: 0
@@ -16277,6 +16535,7 @@ GameObject:
   - component: {fileID: 1902055462}
   - component: {fileID: 1902055461}
   - component: {fileID: 1902055460}
+  - component: {fileID: 1902055463}
   m_Layer: 0
   m_Name: Door (9)
   m_TagString: Untagged
@@ -16377,6 +16636,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1902055458}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1902055463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902055458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!1 &1903511592
 GameObject:
   m_ObjectHideFlags: 0
@@ -16725,6 +17001,7 @@ GameObject:
   - component: {fileID: 1980197874}
   - component: {fileID: 1980197873}
   - component: {fileID: 1980197872}
+  - component: {fileID: 1980197876}
   m_Layer: 0
   m_Name: Door (1)
   m_TagString: Untagged
@@ -16825,6 +17102,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 516086365}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1980197876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980197871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!1 &2005896318
 GameObject:
   m_ObjectHideFlags: 0
@@ -16837,6 +17131,7 @@ GameObject:
   - component: {fileID: 2005896322}
   - component: {fileID: 2005896321}
   - component: {fileID: 2005896320}
+  - component: {fileID: 2005896323}
   m_Layer: 0
   m_Name: Door (3)
   m_TagString: Untagged
@@ -16937,6 +17232,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2005896318}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2005896323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2005896318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b654adba7a0d479fb59358f9769c47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.SimpleDoor
+  interactionAudioSource: {fileID: 0}
+  interactionVolume: 1
+  isLocked: 0
+  openSound: {fileID: 0}
+  lockedSound: {fileID: 0}
 --- !u!114 &2024345675 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2257344219160668654, guid: 4d677f902088d8b4e978fdb9a98806b3, type: 3}
