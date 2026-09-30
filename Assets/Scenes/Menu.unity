@@ -1300,7 +1300,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   clipsIgnoreVolume: 0
   settingsOpenedClip: {fileID: 0}
-  volumeFocusClip: {fileID: 0}
+  volumeFocusClip: {fileID: 8300000, guid: d481535849ab2a944973b074424fb0c1, type: 3}
   volumeActivateClip: {fileID: 0}
   volumeStepClips:
   - {fileID: 8300000, guid: 474a2f7c6452f784281f69bab269d748, type: 3}
@@ -1316,14 +1316,20 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4c08cb2c2cf7e204399b6e2304f189f2, type: 3}
   controlsFocusClip: {fileID: 8300000, guid: d251aa632f76e5e439b1a51b011e5878, type: 3}
   controls:
-  - label: 'A or Left Arrow: Turn Left'
-    clip: {fileID: 0}
+  - label: 'Left Arrow: Turn left 90 degrees'
+    clip: {fileID: 8300000, guid: 59df8996c73e16745b38dec7035a9a25, type: 3}
+  - label: 'Right Arrow: Turn right 90 degrees'
+    clip: {fileID: 8300000, guid: 718d5ee328981654393ca61efae13d83, type: 3}
+  - label: 'Up Arrow: Walk forward (hold to keep moving)'
+    clip: {fileID: 8300000, guid: 4289154d9e7772c46b9c3129bc608cf2, type: 3}
+  - label: 'Down Arrow: Walk backward (hold to keep moving)'
+    clip: {fileID: 8300000, guid: 691b79317e335ef4c9901ca4dc1874eb, type: 3}
   - label: 'Space: Jump'
-    clip: {fileID: 0}
-  - label: 'V: Whistle'
-    clip: {fileID: 0}
-  - label: 'F: Interact'
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 49a90355ce6e93447a4c788b5c9d5049, type: 3}
+  - label: 'F: Interact or pick up objects'
+    clip: {fileID: 8300000, guid: d69d115a6d75e8b4981cdf45e61a0603, type: 3}
+  - label: 'J: Whistle'
+    clip: {fileID: 8300000, guid: cee341367695e9b4594b7036ae1a8ddb, type: 3}
   returnFocusClip: {fileID: 8300000, guid: 8ab1dc74406abd741b110d2b1ea5747c, type: 3}
   returnActivateClip: {fileID: 0}
   inputCooldown: 0.15
