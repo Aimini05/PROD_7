@@ -643,6 +643,7 @@ GameObject:
   - component: {fileID: 327381577}
   - component: {fileID: 327381576}
   - component: {fileID: 327381575}
+  - component: {fileID: 2200000000}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -4270,6 +4271,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2143873640}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2200000000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327381573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b341963da6e54ad4929e2aa0b4582f13, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.WalkableSurface
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

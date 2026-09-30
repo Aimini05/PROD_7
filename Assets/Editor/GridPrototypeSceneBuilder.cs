@@ -47,6 +47,7 @@ namespace AmazingMaze.Editor
 
             GameObject floor = CreateCube("Floor", new Vector3(0f, -0.1f, 6f), new Vector3(18f, 0.2f, 18f), environment);
             floor.isStatic = true;
+            floor.AddComponent<WalkableSurface>();
 
             for (int x = -4; x <= 4; x++)
             {

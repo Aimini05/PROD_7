@@ -8,6 +8,7 @@ namespace AmazingMaze.Player
     * First-person, tile-by-tile movement for the  prototype.
     * The player can only face the four cardinal directions.
     * Up arrow steps forward, left/right arrows turn, and Space jumps in place.
+    * E opens the door directly ahead. No key is required.
     * Steps and turns are instant; short delays keep actions separated.
     */
     [DisallowMultipleComponent]
@@ -35,19 +36,31 @@ namespace AmazingMaze.Player
         [SerializeField, Min(0.05f)] private float collisionRadius = 0.35f;
         [SerializeField, Min(0.1f)] private float collisionHeight = 1.7f;
 
+        [Header("Ground and stairs")]
+        [SerializeField, Min(0.01f)] private float maxStepHeight = 0.6f;
+        [SerializeField, Min(0.01f)] private float maxStepDown = 0.6f;
+
+        [Header("Interaction")]
+        [SerializeField, Min(0.1f)] private float interactionDistance = 2.5f;
+
         // Audio scripts can subscribe to these events; this controller does not play sounds.
         // Moved supplies the new position; MoveBlocked supplies the attempted position.
         // Turned supplies -1 for left or +1 for right.
         public event Action<Vector3> Moved;
         public event Action<int> Turned;
         public event Action<Vector3> MoveBlocked;
+        public event Action<SimpleDoor> DoorOpened;
 
         public bool IsBusy => isJumping || actionTimeRemaining > 0f;
+        // Editor tools read these values so their grid matches movement exactly.
+        public float TileSize => tileSize;
+        public Vector3 GridOrigin => gridOrigin;
         // 0 = forward (+Z), 1 = right (+X), 2 = back (-Z), 3 = left (-X).
         public int HeadingQuarterTurns { get; private set; }
 
         // Reuse this array for every collision query instead of creating one per step.
         private readonly Collider[] collisionHits = new Collider[16];
+        private readonly RaycastHit[] groundHits = new RaycastHit[16];
         private float actionTimeRemaining;
         private bool isJumping;
         private Vector3 jumpStart;
@@ -56,6 +69,12 @@ namespace AmazingMaze.Player
         private void Awake() {
             // Align the starting position and rotation with the maze grid.
             SnapToGrid();
+            Physics.SyncTransforms();
+            if (TryGetGroundHeight(transform.position, out float groundHeight)) {
+                Vector3 grounded = transform.position;
+                grounded.y = groundHeight;
+                transform.position = grounded;
+            }
             HeadingQuarterTurns = Mathf.RoundToInt(transform.eulerAngles.y / 90f);
             HeadingQuarterTurns = Mod(HeadingQuarterTurns, 4);
             transform.rotation = Quaternion.Euler(0f, HeadingQuarterTurns * 90f, 0f);
@@ -84,8 +103,11 @@ namespace AmazingMaze.Player
             }
 
             // One action per key press; holding a key does not repeat it.
-            // If several keys are pressed together, Space takes priority, then left/right/up.
-            if (keyboard.spaceKey.wasPressedThisFrame) {
+            // If several keys are pressed together, E takes priority, then Space/left/right/up.
+            if (keyboard.eKey.wasPressedThisFrame) {
+                TryOpenDoor();
+            }
+            else if (keyboard.spaceKey.wasPressedThisFrame) {
                 jumpStart = transform.position;
                 jumpElapsed = 0f;
                 isJumping = true;
@@ -102,16 +124,29 @@ namespace AmazingMaze.Player
         }
 
         private void TryMoveForward() {
-            // Check the destination before moving exactly one tile in the facing direction.
+            // Check the entire step so narrow walls, gaps and floor edges cannot be skipped.
             Vector3 direction = DirectionFromHeading(HeadingQuarterTurns);
             Vector3 destination = transform.position + direction * tileSize;
+            Vector3 supported = transform.position;
+            Physics.SyncTransforms();
+            int samples = Mathf.CeilToInt(tileSize / 0.15f);
 
-            if (IsDestinationBlocked(destination))
-            {
-                MoveBlocked?.Invoke(destination);
-                return;
+            for (int i = 1; i <= samples; i++) {
+                Vector3 candidate = transform.position + direction * (tileSize * i / samples);
+                candidate.y = supported.y;
+                if (!TryGetGroundHeight(candidate, out float groundHeight)) {
+                    MoveBlocked?.Invoke(destination);
+                    return;
+                }
+                candidate.y = groundHeight;
+                if (IsDestinationBlocked(candidate)) {
+                    MoveBlocked?.Invoke(destination);
+                    return;
+                }
+                supported = candidate;
             }
 
+            destination = supported;
             transform.position = destination;
             actionTimeRemaining = moveDuration;
             Moved?.Invoke(destination);
@@ -119,7 +154,7 @@ namespace AmazingMaze.Player
 
         private bool IsDestinationBlocked(Vector3 destination) {
             // Place the check box just above the floor so the floor does not block movement.
-            // This checks the destination only, not the space between the two tiles.
+            // Called at each sample along the step after finding the floor height.
             Vector3 halfExtents = new Vector3(collisionRadius, collisionHeight * 0.5f, collisionRadius);
             Vector3 center = destination + Vector3.up * (collisionHeight * 0.5f + 0.05f);
             int hitCount = Physics.OverlapBoxNonAlloc(
@@ -139,6 +174,46 @@ namespace AmazingMaze.Player
 
             // If the buffer filled, some colliders may be missing: block conservatively.
             return hitCount == collisionHits.Length;
+        }
+
+        private bool TryGetGroundHeight(Vector3 position, out float height) {
+            // Require support under the centre and four edges of the player's footprint.
+            // Use the highest support to lift the feet clear of a step while approaching it.
+            height = float.NegativeInfinity;
+            for (int i = 0; i < 5; i++) {
+                Vector3 point = position;
+                if (i == 1) point.x += collisionRadius;
+                if (i == 2) point.x -= collisionRadius;
+                if (i == 3) point.z += collisionRadius;
+                if (i == 4) point.z -= collisionRadius;
+                Vector3 origin = point + Vector3.up * (maxStepHeight + 0.02f);
+                int count = Physics.RaycastNonAlloc(origin, Vector3.down, groundHits,
+                    maxStepHeight + maxStepDown + 0.04f, obstacleLayers, QueryTriggerInteraction.Ignore);
+                if (count == groundHits.Length) return false;
+                float support = float.NegativeInfinity;
+                for (int hit = 0; hit < count; hit++) {
+                    RaycastHit result = groundHits[hit];
+                    if (result.normal.y < 0.9f || result.collider.GetComponentInParent<WalkableSurface>() == null) continue;
+                    float rise = result.point.y - position.y;
+                    if (rise > maxStepHeight + 0.001f || rise < -maxStepDown - 0.001f) continue;
+                    support = Mathf.Max(support, result.point.y);
+                }
+                if (float.IsNegativeInfinity(support)) return false;
+                height = Mathf.Max(height, support);
+            }
+            return true;
+        }
+
+        private void TryOpenDoor() {
+            // Use the first solid object in front of the player: never open through a wall.
+            Physics.SyncTransforms();
+            Vector3 origin = transform.position + Vector3.up * (collisionHeight * 0.5f);
+            if (!Physics.Raycast(origin, DirectionFromHeading(HeadingQuarterTurns), out RaycastHit hit,
+                interactionDistance, obstacleLayers, QueryTriggerInteraction.Ignore)) return;
+            SimpleDoor door = hit.collider.GetComponentInParent<SimpleDoor>();
+            if (door == null || door.IsOpen) return;
+            door.Open();
+            DoorOpened?.Invoke(door);
         }
 
         private void Turn(int direction) {
@@ -178,7 +253,7 @@ namespace AmazingMaze.Player
         }
 
         private static int Mod(int value, int modulus) {
-            // This raps negative values correctly when turning left from 0.
+            // This wraps negative values correctly when turning left from 0.
             return (value % modulus + modulus) % modulus;
         }
 
