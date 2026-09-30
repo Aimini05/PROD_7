@@ -3307,7 +3307,7 @@ MonoBehaviour:
   turnDuration: 0.14
   obstacleLayers:
     serializedVersion: 2
-    m_Bits: 4294967291
+    m_Bits: 51
   collisionRadius: 0.35
   collisionHeight: 1.7
 --- !u!136 &1747157323

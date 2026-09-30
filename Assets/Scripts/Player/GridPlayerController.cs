@@ -11,8 +11,7 @@ namespace AmazingMaze.Player
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(CapsuleCollider))]
-    public sealed class GridPlayerController : MonoBehaviour
-    {
+    public sealed class GridPlayerController : MonoBehaviour {
         [Header("Grid")]
         [SerializeField, Min(0.1f)] private float tileSize = 2f;
         [SerializeField] private Vector3 gridOrigin = Vector3.zero;
@@ -33,37 +32,30 @@ namespace AmazingMaze.Player
         public bool IsBusy { get; private set; }
         public int HeadingQuarterTurns { get; private set; }
 
-        private void Awake()
-        {
+        private void Awake() {
             SnapToGrid();
             HeadingQuarterTurns = Mathf.RoundToInt(transform.eulerAngles.y / 90f);
             HeadingQuarterTurns = Mod(HeadingQuarterTurns, 4);
             transform.rotation = Quaternion.Euler(0f, HeadingQuarterTurns * 90f, 0f);
         }
 
-        private void Update()
-        {
-            if (IsBusy || Keyboard.current == null)
-            {
+        private void Update() {
+            if (IsBusy || Keyboard.current == null) {
                 return;
             }
 
-            if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
-            {
+            if (Keyboard.current.leftArrowKey.wasPressedThisFrame) {
                 StartCoroutine(Turn(-1));
             }
-            else if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
-            {
+            else if (Keyboard.current.rightArrowKey.wasPressedThisFrame) {
                 StartCoroutine(Turn(1));
             }
-            else if (Keyboard.current.upArrowKey.wasPressedThisFrame)
-            {
+            else if (Keyboard.current.upArrowKey.wasPressedThisFrame) {
                 TryMoveForward();
             }
         }
 
-        private void TryMoveForward()
-        {
+        private void TryMoveForward() {
             Vector3 direction = DirectionFromHeading(HeadingQuarterTurns);
             Vector3 destination = transform.position + direction * tileSize;
 
@@ -76,8 +68,7 @@ namespace AmazingMaze.Player
             StartCoroutine(Move(destination));
         }
 
-        private bool IsDestinationBlocked(Vector3 destination)
-        {
+        private bool IsDestinationBlocked(Vector3 destination) {
             Vector3 halfExtents = new Vector3(collisionRadius, collisionHeight * 0.5f, collisionRadius);
             Vector3 center = destination + Vector3.up * (collisionHeight * 0.5f + 0.05f);
             Collider[] hits = Physics.OverlapBox(
@@ -87,10 +78,8 @@ namespace AmazingMaze.Player
                 obstacleLayers,
                 QueryTriggerInteraction.Ignore);
 
-            for (int i = 0; i < hits.Length; i++)
-            {
-                if (hits[i].transform != transform && !hits[i].transform.IsChildOf(transform))
-                {
+            for (int i = 0; i < hits.Length; i++) {
+                if (hits[i].transform != transform && !hits[i].transform.IsChildOf(transform)) {
                     return true;
                 }
             }
@@ -98,14 +87,12 @@ namespace AmazingMaze.Player
             return false;
         }
 
-        private IEnumerator Move(Vector3 destination)
-        {
+        private IEnumerator Move(Vector3 destination) {
             IsBusy = true;
             Vector3 start = transform.position;
             float elapsed = 0f;
 
-            while (elapsed < moveDuration)
-            {
+            while (elapsed < moveDuration) {
                 elapsed += Time.deltaTime;
                 float t = SmoothStep01(elapsed / moveDuration);
                 transform.position = Vector3.LerpUnclamped(start, destination, t);
@@ -117,16 +104,14 @@ namespace AmazingMaze.Player
             Moved?.Invoke(destination);
         }
 
-        private IEnumerator Turn(int direction)
-        {
+        private IEnumerator Turn(int direction) {
             IsBusy = true;
             Quaternion start = transform.rotation;
             int targetHeading = Mod(HeadingQuarterTurns + direction, 4);
             Quaternion target = Quaternion.Euler(0f, targetHeading * 90f, 0f);
             float elapsed = 0f;
 
-            while (elapsed < turnDuration)
-            {
+            while (elapsed < turnDuration) {
                 elapsed += Time.deltaTime;
                 float t = SmoothStep01(elapsed / turnDuration);
                 transform.rotation = Quaternion.SlerpUnclamped(start, target, t);
@@ -139,16 +124,14 @@ namespace AmazingMaze.Player
             Turned?.Invoke(direction);
         }
 
-        private void SnapToGrid()
-        {
+        private void SnapToGrid() {
             Vector3 position = transform.position;
             position.x = gridOrigin.x + Mathf.Round((position.x - gridOrigin.x) / tileSize) * tileSize;
             position.z = gridOrigin.z + Mathf.Round((position.z - gridOrigin.z) / tileSize) * tileSize;
             transform.position = position;
         }
 
-        private static Vector3 DirectionFromHeading(int heading)
-        {
+        private static Vector3 DirectionFromHeading(int heading) {
             switch (Mod(heading, 4))
             {
                 case 0: return Vector3.forward;
@@ -158,19 +141,16 @@ namespace AmazingMaze.Player
             }
         }
 
-        private static float SmoothStep01(float value)
-        {
+        private static float SmoothStep01(float value) {
             value = Mathf.Clamp01(value);
             return value * value * (3f - 2f * value);
         }
 
-        private static int Mod(int value, int modulus)
-        {
+        private static int Mod(int value, int modulus) {
             return (value % modulus + modulus) % modulus;
         }
 
-        private void OnDrawGizmosSelected()
-        {
+        private void OnDrawGizmosSelected() {
             Vector3 direction = DirectionFromHeading(Mathf.RoundToInt(transform.eulerAngles.y / 90f));
             Vector3 destination = transform.position + direction * tileSize;
             Vector3 center = destination + Vector3.up * (collisionHeight * 0.5f + 0.05f);
