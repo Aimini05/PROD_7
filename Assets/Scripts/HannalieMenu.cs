@@ -162,7 +162,7 @@ public class HannalieMenu : MonoBehaviour
         inControls = false;
         selected = OptionMaster;
         StartCooldown();
-        PlayClip(settingsOpenedClip);
+        PlayClip(masterFocusClip);
         RefreshLabels();
     }
 
