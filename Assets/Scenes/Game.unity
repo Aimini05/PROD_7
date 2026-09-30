@@ -1240,6 +1240,22 @@ PrefabInstance:
       propertyPath: monster
       value: 
       objectReference: {fileID: 215966107}
+    - target: {fileID: 2223144653092295868, guid: 9f87aa96d958edd4d85334b6ca0e33e3, type: 3}
+      propertyPath: whistleSounds.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2223144653092295868, guid: 9f87aa96d958edd4d85334b6ca0e33e3, type: 3}
+      propertyPath: 'whistleSounds.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 3f46df7d20cf91a4c840c0679d65e133, type: 3}
+    - target: {fileID: 2223144653092295868, guid: 9f87aa96d958edd4d85334b6ca0e33e3, type: 3}
+      propertyPath: 'whistleSounds.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 72ae1e6df9dd30a45b67833e4a64ff65, type: 3}
+    - target: {fileID: 2223144653092295868, guid: 9f87aa96d958edd4d85334b6ca0e33e3, type: 3}
+      propertyPath: 'whistleSounds.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 3528cf8e8408b284daa4623eb733e5ea, type: 3}
     - target: {fileID: 6775270929309056794, guid: 9f87aa96d958edd4d85334b6ca0e33e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.5755542
