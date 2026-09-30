@@ -1090,7 +1090,7 @@ MonoBehaviour:
   settingsPanel: {fileID: 1496848420}
   options:
   - label: Start Game
-    focusClip: {fileID: 8300000, guid: eb34011ea8c8e664ca2f8b681e82a1b1, type: 3}
+    focusClip: {fileID: 8300000, guid: a413969deb1a2f24d8a002805491094c, type: 3}
     activateClip: {fileID: 0}
     onSelect:
       m_PersistentCalls:
@@ -1126,7 +1126,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - label: Exit Game
-    focusClip: {fileID: 8300000, guid: 72370b36158fa404ebf9ac8cf1ee00a1, type: 3}
+    focusClip: {fileID: 8300000, guid: b400d873042597747878a8aa1d06ed0d, type: 3}
     activateClip: {fileID: 0}
     onSelect:
       m_PersistentCalls:
