@@ -5,6 +5,8 @@ using TMPro;
 [RequireComponent(typeof(AudioSource))]
 public class MainMenu : MonoBehaviour
 {
+    public GameObject settingsPanel; // the Settings UI Canvas/Panel, assign in Inspector
+
     public List<MenuOption> options = new List<MenuOption>();
     public List<TextMeshProUGUI> optionLabels; // assign matching UI text objects, same order as options
     public Color normalColor = Color.white;
@@ -12,6 +14,8 @@ public class MainMenu : MonoBehaviour
 
     public AudioClip menuOpenedClip;
     public float inputCooldown = 0.15f;
+
+    
 
     private AudioSource audioSource;
     private int currentIndex = 0;
@@ -21,10 +25,15 @@ public class MainMenu : MonoBehaviour
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+
+       
     }
 
     void Start()
     {
+
+        settingsPanel.SetActive(false);
+
         if (menuOpenedClip != null)
             audioSource.PlayOneShot(menuOpenedClip);
 
