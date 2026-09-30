@@ -100,10 +100,12 @@ public class HannalieMenu : MonoBehaviour
 
     private void Start()
     {
-        if (mainMenu == null) mainMenu = GetComponent<MainMenu>();
-        if (mainMenu == null) Debug.LogWarning("SettingsMenu: hittar ingen MainMenu-komponent.");
+        if (!isInGameScene && mainMenu == null)
+            mainMenu = GetComponent<MainMenu>();
 
-        if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
         audioSource.playOnAwake = false;
 
         masterVol = PlayerPrefs.GetInt(MasterKey, 100);
@@ -116,18 +118,36 @@ public class HannalieMenu : MonoBehaviour
         ApplyMixerVolume(SFXKey, sfxVol);
         ApplyMixerVolume(VoiceKey, voiceVol);
 
+        // Force settings panel to start closed
+        isOpen = false;
+        if (settingsPanel != null)
+            settingsPanel.SetActive(false);
+
         RefreshLabels();
     }
 
+    // Add a reference for whether we are in a gameplay scene (vs main menu)
+    [Header("In-Game Settings / Pause")]
+    public bool isInGameScene = false;
+
     private void Update()
     {
-        if (!isOpen) return;
+        // If closed during gameplay, check if player presses Escape or P to open it
+        if (!isOpen)
+        {
+            if (isInGameScene && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P)))
+            {
+                Open();
+            }
+            return;
+        }
+
         if (Time.unscaledTime < nextInputTime) return;
 
         bool up = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W);
         bool down = Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S);
         bool confirm = Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Space);
-        bool back = Input.GetKeyDown(KeyCode.Escape);
+        bool back = Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P);
 
         if (adjustingVolume)
         {
@@ -154,6 +174,7 @@ public class HannalieMenu : MonoBehaviour
     public void Open()
     {
         if (mainMenu != null) mainMenu.SetMenuActive(false);
+
         settingsPanel.SetActive(true);
         if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
 
@@ -161,8 +182,15 @@ public class HannalieMenu : MonoBehaviour
         adjustingVolume = false;
         inControls = false;
         selected = OptionMaster;
+
+        // Pause game time if opening during gameplay
+        if (isInGameScene)
+        {
+            Time.timeScale = 0f;
+        }
+
         StartCooldown();
-        PlayClip(masterFocusClip);
+        PlayClip(settingsOpenedClip);
         RefreshLabels();
     }
 
@@ -172,9 +200,18 @@ public class HannalieMenu : MonoBehaviour
         adjustingVolume = false;
         inControls = false;
         settingsPanel.SetActive(false);
-        if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
 
-        if (mainMenu != null) StartCoroutine(ReactivateMainMenu());
+        // Resume game time if closing during gameplay
+        if (isInGameScene)
+        {
+            Time.timeScale = 1f;
+        }
+
+        if (mainMenuPanel != null)
+            mainMenuPanel.SetActive(true);
+
+        if (mainMenu != null)
+            StartCoroutine(ReactivateMainMenu());
     }
 
     private System.Collections.IEnumerator ReactivateMainMenu()
