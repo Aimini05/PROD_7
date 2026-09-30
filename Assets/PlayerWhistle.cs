@@ -9,6 +9,9 @@ public class PlayerWhistle : MonoBehaviour
     [Header("Monster")]
     public MonsterMovement monster;
 
+    [Header("Dog")]
+    public Dog dog;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
@@ -29,6 +32,12 @@ public class PlayerWhistle : MonoBehaviour
         if (monster != null)
         {
             monster.HearWhistle(transform.position);
+        }
+
+        // Få hunden att skälla
+        if (dog != null)
+        {
+            dog.HearWhistle();
         }
 
         Debug.Log("Player whistles!");
