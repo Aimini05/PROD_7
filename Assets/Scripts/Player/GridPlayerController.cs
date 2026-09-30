@@ -20,6 +20,10 @@ namespace AmazingMaze.Player
         [SerializeField, Min(0.01f)] private float moveDuration = 0.18f;
         [SerializeField, Min(0.01f)] private float turnDuration = 0.14f;
 
+        [Header("Jump")]
+        [SerializeField, Min(0.01f)] private float jumpHeight = 0.75f;
+        [SerializeField, Min(0.01f)] private float jumpDuration = 0.5f;
+
         [Header("Collision")]
         [SerializeField] private LayerMask obstacleLayers = Physics.DefaultRaycastLayers;
         [SerializeField, Min(0.05f)] private float collisionRadius = 0.35f;
@@ -44,7 +48,10 @@ namespace AmazingMaze.Player
                 return;
             }
 
-            if (Keyboard.current.leftArrowKey.wasPressedThisFrame) {
+            if (Keyboard.current.spaceKey.wasPressedThisFrame) {
+                StartCoroutine(Jump());
+            }
+            else if (Keyboard.current.leftArrowKey.wasPressedThisFrame) {
                 StartCoroutine(Turn(-1));
             }
             else if (Keyboard.current.rightArrowKey.wasPressedThisFrame) {
@@ -85,6 +92,24 @@ namespace AmazingMaze.Player
             }
 
             return false;
+        }
+
+        private IEnumerator Jump() {
+            IsBusy = true;
+            Vector3 start = transform.position;
+            float elapsed = 0f;
+
+            while (elapsed < jumpDuration) {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / jumpDuration);
+                // A simple arc: ground at both ends, maximum height halfway through.
+                float height = 4f * jumpHeight * t * (1f - t);
+                transform.position = start + Vector3.up * height;
+                yield return null;
+            }
+
+            transform.position = start;
+            IsBusy = false;
         }
 
         private IEnumerator Move(Vector3 destination) {
