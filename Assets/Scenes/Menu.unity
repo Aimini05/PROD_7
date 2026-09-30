@@ -1108,7 +1108,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - label: Settings
-    focusClip: {fileID: 8300000, guid: bb751292f00b02c4db1f21c54f4fb77c, type: 3}
+    focusClip: {fileID: 8300000, guid: f37ca7f2bd2fd634eb1b56297df2d330, type: 3}
     activateClip: {fileID: 0}
     onSelect:
       m_PersistentCalls:
@@ -1300,37 +1300,37 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   clipsIgnoreVolume: 0
   settingsOpenedClip: {fileID: 0}
-  volumeFocusClip: {fileID: 8300000, guid: d481535849ab2a944973b074424fb0c1, type: 3}
+  volumeFocusClip: {fileID: 8300000, guid: f19ec2da0942b6448b3195ce2a03b069, type: 3}
   volumeActivateClip: {fileID: 0}
   volumeStepClips:
-  - {fileID: 8300000, guid: 474a2f7c6452f784281f69bab269d748, type: 3}
-  - {fileID: 8300000, guid: dd6748823fed6e64aa7f02c180126941, type: 3}
-  - {fileID: 8300000, guid: 70be35b98edf24a418f3c189d5cd6465, type: 3}
-  - {fileID: 8300000, guid: e98fa2932f786604b807cc892ab52797, type: 3}
-  - {fileID: 8300000, guid: b52575ee15aa36a48b5df67da0bd4168, type: 3}
-  - {fileID: 8300000, guid: c6dd0256250df304b80dc1f055283f9f, type: 3}
-  - {fileID: 8300000, guid: 44e50b860e6e7ba41b342a90fa2c9d40, type: 3}
-  - {fileID: 8300000, guid: 627da796461020040826986e407f776d, type: 3}
-  - {fileID: 8300000, guid: 0ba5b0df58372de4798a2aea651d1a4e, type: 3}
-  - {fileID: 8300000, guid: 9ff9164f6c8e3b742a7123e6c41e8d8b, type: 3}
-  - {fileID: 8300000, guid: 4c08cb2c2cf7e204399b6e2304f189f2, type: 3}
-  controlsFocusClip: {fileID: 8300000, guid: d251aa632f76e5e439b1a51b011e5878, type: 3}
+  - {fileID: 8300000, guid: 39e2b93063ec2e4479f49beb0ad7320d, type: 3}
+  - {fileID: 8300000, guid: 03d9453c9ea38024d934f51f5315384c, type: 3}
+  - {fileID: 8300000, guid: fe6fb6c48d123f94cba0008c13de8cc9, type: 3}
+  - {fileID: 8300000, guid: 92caa4a0308914f4ba4b29c37cbe5ee0, type: 3}
+  - {fileID: 8300000, guid: 5b8dc3fe6dc4bb04abd83d9e61ff0c81, type: 3}
+  - {fileID: 8300000, guid: d8395bbd9e47eb64d992b5a8313ee2c8, type: 3}
+  - {fileID: 8300000, guid: 3533314ab4721e540a4fe939cc482cda, type: 3}
+  - {fileID: 8300000, guid: 60baccf1134ebb24e8ab90379b332912, type: 3}
+  - {fileID: 8300000, guid: 79f293dba8322a64d8c4ab1d98567ceb, type: 3}
+  - {fileID: 8300000, guid: f17250dd0ea6a1c43bdd273fcd58c1e3, type: 3}
+  - {fileID: 8300000, guid: 0c955e7e41943da46a5cf385f2e5868f, type: 3}
+  controlsFocusClip: {fileID: 8300000, guid: a1dbdf3e5a10a6442a96bef33e9899ff, type: 3}
   controls:
   - label: 'Left Arrow: Turn left 90 degrees'
-    clip: {fileID: 8300000, guid: 59df8996c73e16745b38dec7035a9a25, type: 3}
+    clip: {fileID: 8300000, guid: 9bb93e9156d85a846b84953b90610adb, type: 3}
   - label: 'Right Arrow: Turn right 90 degrees'
-    clip: {fileID: 8300000, guid: 718d5ee328981654393ca61efae13d83, type: 3}
+    clip: {fileID: 8300000, guid: b8635eb61b972b6438f6068f00a9654a, type: 3}
   - label: 'Up Arrow: Walk forward (hold to keep moving)'
-    clip: {fileID: 8300000, guid: 4289154d9e7772c46b9c3129bc608cf2, type: 3}
+    clip: {fileID: 8300000, guid: d81b83ea22ef81a4eab2e5f8fb8b080f, type: 3}
   - label: 'Down Arrow: Walk backward (hold to keep moving)'
-    clip: {fileID: 8300000, guid: 691b79317e335ef4c9901ca4dc1874eb, type: 3}
+    clip: {fileID: 8300000, guid: dfafc89bba535674f8dab30562046223, type: 3}
   - label: 'Space: Jump'
-    clip: {fileID: 8300000, guid: 49a90355ce6e93447a4c788b5c9d5049, type: 3}
+    clip: {fileID: 8300000, guid: 999ada7b7e62d0140b6873147b7172f4, type: 3}
   - label: 'F: Interact or pick up objects'
-    clip: {fileID: 8300000, guid: d69d115a6d75e8b4981cdf45e61a0603, type: 3}
+    clip: {fileID: 8300000, guid: 29b1f959f34d4da4a9c30a7ff7097b2b, type: 3}
   - label: 'J: Whistle'
-    clip: {fileID: 8300000, guid: cee341367695e9b4594b7036ae1a8ddb, type: 3}
-  returnFocusClip: {fileID: 8300000, guid: 8ab1dc74406abd741b110d2b1ea5747c, type: 3}
+    clip: {fileID: 8300000, guid: 82570ae021361e441ac6e113a2cbe852, type: 3}
+  returnFocusClip: {fileID: 8300000, guid: efaf6e589b284cb4abeb4d34a2550ff4, type: 3}
   returnActivateClip: {fileID: 0}
   inputCooldown: 0.15
 --- !u!1 &1157545886
