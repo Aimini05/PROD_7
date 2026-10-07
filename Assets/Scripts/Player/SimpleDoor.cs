@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace AmazingMaze.Player
@@ -11,15 +12,50 @@ namespace AmazingMaze.Player
         [SerializeField] private bool isLocked;
 
         [Header("Door sounds")]
+        [Tooltip("A single clip containing the opening sound followed by the closing sound.")]
         [SerializeField] private AudioClip openSound;
         [SerializeField] private AudioClip lockedSound;
+
+        [Header("Passage")]
+        [Tooltip("Minimum time the doorway stays clear. The full open/close clip is always allowed to finish first.")]
+        [SerializeField, Min(0.1f)] private float minimumPassableDuration = 1.5f;
+        [SerializeField] private bool closeAfterPassage = true;
 
         public bool IsOpen { get; private set; }
         public bool IsLocked => isLocked;
         private float nextLockedSoundTime;
+        private Renderer[] panels;
+        private Collider[] obstacles;
+        private bool[] panelEnabledStates;
+        private bool[] obstacleEnabledStates;
+        private Coroutine closeRoutine;
         // A sound script can subscribe here to announce that the passage is open.
         public event Action Opened;
+        public event Action Closed;
         public event Action LockedAttempted;
+
+        private void Awake()
+        {
+            CacheDoorParts();
+        }
+
+        private void OnDisable()
+        {
+            if (closeRoutine != null)
+            {
+                StopCoroutine(closeRoutine);
+                closeRoutine = null;
+            }
+
+            // Do not leave the scene with invisible/non-solid doors after a script reload
+            // or if a door component is disabled while its passage is open.
+            if (IsOpen)
+            {
+                SetPassageOpen(false);
+                IsOpen = false;
+                Physics.SyncTransforms();
+            }
+        }
 
         public override bool Interact(GridPlayerController player)
         {
@@ -35,21 +71,111 @@ namespace AmazingMaze.Player
                 LockedAttempted?.Invoke();
                 return false;
             }
-            Open();
+            Open(player);
             return true;
         }
 
         public void Open()
         {
+            Open(null);
+        }
+
+        public void Open(GridPlayerController player)
+        {
             if (IsOpen || isLocked) return;
+
+            CacheDoorParts();
             IsOpen = true;
-            // Keep this GameObject active so the opening sound can finish playing.
+            // Keep this GameObject active so the combined open/close sound can finish.
             PlayInteractionSound(openSound);
-            // Prototype opening: remove the panel and its obstruction.
-            foreach (var panel in GetComponentsInChildren<Renderer>()) panel.enabled = false;
-            foreach (var obstacle in GetComponentsInChildren<Collider>()) obstacle.enabled = false;
+            SetPassageOpen(true);
             Physics.SyncTransforms();
             Opened?.Invoke();
+
+            if (closeAfterPassage)
+            {
+                closeRoutine = StartCoroutine(CloseWhenSafe(player));
+            }
+        }
+
+        public void Close()
+        {
+            if (!IsOpen) return;
+
+            if (closeRoutine != null)
+            {
+                StopCoroutine(closeRoutine);
+                closeRoutine = null;
+            }
+
+            SetPassageOpen(false);
+            IsOpen = false;
+            Physics.SyncTransforms();
+            Closed?.Invoke();
+        }
+
+        private IEnumerator CloseWhenSafe(GridPlayerController player)
+        {
+            // The supplied clip already contains the closing sound, so keep the physical
+            // passage open through the whole clip (and for at least the configured window).
+            float clipDuration = openSound != null ? openSound.length : 0f;
+            yield return new WaitForSeconds(Mathf.Max(minimumPassableDuration, clipDuration));
+
+            // Never recreate a solid door around the player. This also makes the timing
+            // forgiving for players who navigate primarily by sound.
+            while (player != null && IsPlayerInsideDoorway(player))
+            {
+                yield return null;
+            }
+
+            closeRoutine = null;
+            SetPassageOpen(false);
+            IsOpen = false;
+            Physics.SyncTransforms();
+            Closed?.Invoke();
+        }
+
+        private bool IsPlayerInsideDoorway(GridPlayerController player)
+        {
+            Collider playerCollider = player.GetComponent<Collider>();
+            if (playerCollider == null) return false;
+
+            Bounds playerBounds = playerCollider.bounds;
+            for (int i = 0; i < obstacles.Length; i++)
+            {
+                if (obstacles[i] != null && obstacles[i].bounds.Intersects(playerBounds))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void CacheDoorParts()
+        {
+            if (panels != null && obstacles != null) return;
+
+            panels = GetComponentsInChildren<Renderer>(true);
+            obstacles = GetComponentsInChildren<Collider>(true);
+            panelEnabledStates = new bool[panels.Length];
+            obstacleEnabledStates = new bool[obstacles.Length];
+
+            for (int i = 0; i < panels.Length; i++) panelEnabledStates[i] = panels[i].enabled;
+            for (int i = 0; i < obstacles.Length; i++) obstacleEnabledStates[i] = obstacles[i].enabled;
+        }
+
+        private void SetPassageOpen(bool open)
+        {
+            for (int i = 0; i < panels.Length; i++)
+            {
+                if (panels[i] != null) panels[i].enabled = open ? false : panelEnabledStates[i];
+            }
+
+            for (int i = 0; i < obstacles.Length; i++)
+            {
+                if (obstacles[i] != null) obstacles[i].enabled = open ? false : obstacleEnabledStates[i];
+            }
         }
 
         // Future key/inventory code can unlock the door without replacing its sound logic.
