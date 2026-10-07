@@ -161,6 +161,7 @@ MonoBehaviour:
   audioSource: {fileID: 2637251046177489846}
   barkSound: {fileID: 8300000, guid: 421a25df80069574a9bf41e238f1d4fb, type: 3}
   collisionSound: {fileID: 0}
+  barkDelay: 3
 --- !u!82 &2637251046177489846
 AudioSource:
   m_ObjectHideFlags: 0
@@ -170,7 +171,7 @@ AudioSource:
   m_GameObject: {fileID: 7569847105070380336}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3836461672169680381, guid: 7450e2734910f644faf2d605402faa19, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1

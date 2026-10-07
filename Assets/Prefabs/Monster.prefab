@@ -157,7 +157,7 @@ AudioSource:
   m_GameObject: {fileID: 7882209677259665568}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3836461672169680381, guid: 7450e2734910f644faf2d605402faa19, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -169,8 +169,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
-  MinDistance: 1
-  MaxDistance: 15
+  MinDistance: 0.3
+  MaxDistance: 2
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -261,6 +261,7 @@ MonoBehaviour:
   timeBetweenSteps: 1
   stepsTowardsPlayer: 3
   whistleStepSpeed: 0.4
+  whistleGrowlDelay: 3
   audioSource: {fileID: 6612793216226592716}
   walkingGrowl: {fileID: 8300000, guid: 638ba02f144d2534e80dcc8f64cfb3cb, type: 3}
   whistleResponseGrowl: {fileID: 8300000, guid: 5b0938bedd487014ea4bb097091ca5f0, type: 3}
