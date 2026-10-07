@@ -29,5 +29,12 @@ public class Dog : MonoBehaviour
         Debug.Log("Dog heard the whistle and barked!");
     }
 
-    // OnCollisionEnter är oförändrad
+    // Spelas endast när spelaren går in i trigger-zonen
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && audioSource != null && collisionSound != null)
+        {
+            audioSource.PlayOneShot(collisionSound);
+        }
+    }
 }
