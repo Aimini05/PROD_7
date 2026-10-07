@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AmazingMaze.Player;
 using UnityEditor;
@@ -95,6 +96,114 @@ namespace AmazingMaze.Editor
             Debug.Log($"Converted {manualDoors.Length} manual doors to {PrefabPath} instances in {GameScenePath}.");
         }
 
+        [MenuItem("Tools/The Amazing Maze/Organize New House and Convert Doors")]
+        public static void OrganizeNewHouseAndConvertDoors()
+        {
+            if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            {
+                return;
+            }
+
+            GameObject prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
+            if (prefabAsset == null || prefabAsset.GetComponent<SimpleDoor>() == null)
+            {
+                throw new InvalidOperationException($"A valid SimpleDoor prefab was not found at {PrefabPath}.");
+            }
+
+            Scene scene = EditorSceneManager.OpenScene(GameScenePath, OpenSceneMode.Single);
+            GameObject newHouse = FindOrCreateRoot(scene, "New House");
+            Transform floors = FindOrCreateFolder(newHouse.transform, "Floors and Steps");
+            Transform walls = FindOrCreateFolder(newHouse.transform, "Walls");
+            Transform doors = FindOrCreateFolder(newHouse.transform, "Doors");
+            Transform props = FindOrCreateFolder(newHouse.transform, "Props");
+            Transform labels = FindOrCreateFolder(newHouse.transform, "Room Labels");
+
+            List<GameObject> looseRoots = scene.GetRootGameObjects()
+                .Where(root => root != newHouse)
+                .ToList();
+
+            int convertedDoors = 0;
+            int organizedObjects = 0;
+            foreach (GameObject rootObject in looseRoots)
+            {
+                GameObject root = rootObject;
+                string name = root.name;
+                Transform destination = null;
+
+                if (name.StartsWith("Wall (", StringComparison.Ordinal))
+                {
+                    destination = walls;
+                }
+                else if (name.StartsWith("Door (", StringComparison.Ordinal))
+                {
+                    SimpleDoor manualDoor = root.GetComponent<SimpleDoor>();
+                    if (manualDoor != null &&
+                        PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(root) != PrefabPath)
+                    {
+                        root = ReplaceWithPrefabInstance(manualDoor, prefabAsset, scene);
+                        convertedDoors++;
+                    }
+                    destination = doors;
+                }
+                else if ((name.StartsWith("Floor (", StringComparison.Ordinal) ||
+                          name.StartsWith("Floor_Grass (", StringComparison.Ordinal) ||
+                          name.StartsWith("Step (", StringComparison.Ordinal)))
+                {
+                    destination = floors;
+                }
+                else if (name.StartsWith("Text (TMP)_", StringComparison.Ordinal))
+                {
+                    destination = labels;
+                }
+                else if (IsNewHouseProp(name))
+                {
+                    destination = props;
+                }
+
+                if (destination == null) continue;
+                root.transform.SetParent(destination, true);
+                organizedObjects++;
+            }
+
+            EditorSceneManager.SaveScene(scene, GameScenePath);
+            AssetDatabase.SaveAssets();
+            Debug.Log(
+                $"Organized {organizedObjects} new-house objects under 'New House' and converted " +
+                $"{convertedDoors} manual doors to {PrefabPath} instances.");
+        }
+
+        private static GameObject FindOrCreateRoot(Scene scene, string name)
+        {
+            GameObject existing = scene.GetRootGameObjects()
+                .FirstOrDefault(root => root.name == name);
+            if (existing != null) return existing;
+
+            GameObject created = new GameObject(name);
+            SceneManager.MoveGameObjectToScene(created, scene);
+            return created;
+        }
+
+        private static Transform FindOrCreateFolder(Transform parent, string name)
+        {
+            Transform existing = parent.Find(name);
+            if (existing != null) return existing;
+
+            GameObject folder = new GameObject(name);
+            folder.transform.SetParent(parent, false);
+            return folder.transform;
+        }
+
+        private static bool IsNewHouseProp(string name)
+        {
+            return name.StartsWith("Chest (", StringComparison.Ordinal) ||
+                   name.StartsWith("Shelf (", StringComparison.Ordinal) ||
+                   name.StartsWith("Couch (", StringComparison.Ordinal) ||
+                   name.StartsWith("CouchTABLE (", StringComparison.Ordinal) ||
+                   name.StartsWith("Fireplace (", StringComparison.Ordinal) ||
+                   name.StartsWith("TV (", StringComparison.Ordinal) ||
+                   name == "mat";
+        }
+
         private static GameObject CreatePrefabAsset(SimpleDoor source, AudioClip openCloseSound, AudioClip lockedSound)
         {
             GameObject template = UnityEngine.Object.Instantiate(source.gameObject);
@@ -124,7 +233,7 @@ namespace AmazingMaze.Editor
             return prefabAsset;
         }
 
-        private static void ReplaceWithPrefabInstance(SimpleDoor oldDoor, GameObject prefabAsset, Scene scene)
+        private static GameObject ReplaceWithPrefabInstance(SimpleDoor oldDoor, GameObject prefabAsset, Scene scene)
         {
             Transform oldTransform = oldDoor.transform;
             Transform parent = oldTransform.parent;
@@ -161,6 +270,7 @@ namespace AmazingMaze.Editor
             }
 
             UnityEngine.Object.DestroyImmediate(oldDoor.gameObject);
+            return instance;
         }
 
         private static string GetHierarchyPath(Transform transform)
