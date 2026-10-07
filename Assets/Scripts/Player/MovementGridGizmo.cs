@@ -68,7 +68,28 @@ namespace AmazingMaze.Player
                 position.y = displayHeight;
                 Gizmos.color = door.IsOpen ? Color.green : Color.magenta;
                 Gizmos.DrawWireSphere(position, size * 0.12f);
-                UnityEditor.Handles.Label(position + Vector3.up * 0.1f, door.name);
+
+                Collider doorCollider = door.GetComponentInChildren<Collider>();
+                if (doorCollider == null)
+                {
+                    UnityEditor.Handles.Label(position + Vector3.up * 0.1f, door.name);
+                    continue;
+                }
+
+                // A thin X door is crossed along X; a thin Z door is crossed along Z.
+                // The yellow endpoints are the two tile centres the player moves between.
+                Bounds bounds = doorCollider.bounds;
+                bool crossesX = bounds.size.x < bounds.size.z;
+                Vector3 crossingAxis = crossesX ? Vector3.right : Vector3.forward;
+                Vector3 sideA = position - crossingAxis * (size * 0.5f);
+                Vector3 sideB = position + crossingAxis * (size * 0.5f);
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawLine(sideA, sideB);
+                Gizmos.DrawWireSphere(sideA, size * 0.07f);
+                Gizmos.DrawWireSphere(sideB, size * 0.07f);
+                UnityEditor.Handles.Label(
+                    position + Vector3.up * 0.1f,
+                    $"{door.name}  {(crossesX ? "X boundary" : "Z boundary")}");
             }
         }
 #endif
