@@ -7,6 +7,7 @@ namespace AmazingMaze.Player
     [DisallowMultipleComponent]
     public sealed class SimpleDoor : Interactable
     {
+       
         [Header("Door")]
         [Tooltip("Unlocked by default. Enable to test locked-door feedback; no key system is implemented yet.")]
         [SerializeField] private bool isLocked;
@@ -15,6 +16,14 @@ namespace AmazingMaze.Player
         [Tooltip("A single clip containing the opening sound followed by the closing sound.")]
         [SerializeField] private AudioClip openSound;
         [SerializeField] private AudioClip lockedSound;
+
+
+        [Header("Door proximity sound")]
+        [SerializeField] private AudioSource proximityAudioSource;
+        [SerializeField] private AudioClip proximityCreak;
+        [SerializeField, Range(0f, 1f)] private float proximityVolume = 0.3f;
+        [SerializeField, Min(0.1f)] private float proximityMinDistance = 0.5f;
+        [SerializeField, Min(0.1f)] private float proximityMaxDistance = 4f;
 
         [Header("Passage")]
         [Tooltip("Minimum time the doorway stays clear. The full open/close clip is always allowed to finish first.")]
@@ -37,6 +46,24 @@ namespace AmazingMaze.Player
         private void Awake()
         {
             CacheDoorParts();
+            if (proximityAudioSource != null && proximityCreak != null)
+            {
+                proximityAudioSource.clip = proximityCreak;
+                proximityAudioSource.loop = true;
+                proximityAudioSource.playOnAwake = false;
+
+                // Fullt 3D-ljud
+                proximityAudioSource.spatialBlend = 1f;
+                proximityAudioSource.dopplerLevel = 0f;
+
+                // Smooth och tydlig avståndsskillnad
+                proximityAudioSource.rolloffMode = AudioRolloffMode.Linear;
+                proximityAudioSource.minDistance = proximityMinDistance;
+                proximityAudioSource.maxDistance = proximityMaxDistance;
+
+                proximityAudioSource.volume = proximityVolume;
+                proximityAudioSource.Play();
+            }
         }
 
         private void OnDisable()
