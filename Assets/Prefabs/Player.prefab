@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 6977945480039682206}
   - component: {fileID: 2223144653092295868}
   - component: {fileID: 6215211155892448747}
+  - component: {fileID: 7775854501913597888}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -235,7 +236,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   audioSource: {fileID: 6215211155892448747}
-  whistleSound: {fileID: 8300000, guid: 93bcd4356bdb2784b98ac1f634debeaf, type: 3}
+  whistleSounds:
+  - {fileID: 8300000, guid: 3f46df7d20cf91a4c840c0679d65e133, type: 3}
+  - {fileID: 8300000, guid: 72ae1e6df9dd30a45b67833e4a64ff65, type: 3}
+  - {fileID: 8300000, guid: 3528cf8e8408b284daa4623eb733e5ea, type: 3}
   monster: {fileID: 0}
   dog: {fileID: 0}
 --- !u!82 &6215211155892448747
@@ -247,7 +251,7 @@ AudioSource:
   m_GameObject: {fileID: 8385239577494679210}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3836461672169680381, guid: 7450e2734910f644faf2d605402faa19, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -335,3 +339,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7775854501913597888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8385239577494679210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ffa27c237703e24297980ac9b19b2d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
+  hasKey: 0
