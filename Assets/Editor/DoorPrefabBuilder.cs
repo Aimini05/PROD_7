@@ -9,12 +9,12 @@ using UnityEngine.SceneManagement;
 namespace AmazingMaze.Editor
 {
     /// <summary>
-    /// Creates the shared door prefab and converts only GameTestAimi's existing doors.
-    /// Game.unity is deliberately never opened or modified by this tool.
+    /// Creates the shared door prefab and converts scene doors to prefab instances.
     /// </summary>
     public static class DoorPrefabBuilder
     {
         private const string TestScenePath = "Assets/Scenes/GameTestAimi.unity";
+        private const string GameScenePath = "Assets/Scenes/Game.unity";
         private const string PrefabPath = "Assets/Prefabs/Door.prefab";
         private const string OpenCloseSoundPath = "Assets/Audio/SFX/Door_OpenClose.wav";
         private const string LockedSoundPath = "Assets/Audio/SFX/LockedDoor.wav";
@@ -62,6 +62,37 @@ namespace AmazingMaze.Editor
             }
 
             Debug.Log($"Created {PrefabPath} and converted {doors.Length} doors in {TestScenePath}. Game.unity was not changed.");
+        }
+
+        [MenuItem("Tools/The Amazing Maze/Replace Manual Doors in Game")]
+        public static void ReplaceManualDoorsInGame()
+        {
+            if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            {
+                return;
+            }
+
+            GameObject prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
+            if (prefabAsset == null || prefabAsset.GetComponent<SimpleDoor>() == null)
+            {
+                throw new InvalidOperationException($"A valid SimpleDoor prefab was not found at {PrefabPath}.");
+            }
+
+            Scene scene = EditorSceneManager.OpenScene(GameScenePath, OpenSceneMode.Single);
+            SimpleDoor[] manualDoors = UnityEngine.Object.FindObjectsByType<SimpleDoor>(FindObjectsSortMode.None)
+                .Where(door => door.gameObject.scene == scene)
+                .Where(door => PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(door.gameObject) != PrefabPath)
+                .OrderBy(door => GetHierarchyPath(door.transform), StringComparer.Ordinal)
+                .ToArray();
+
+            foreach (SimpleDoor oldDoor in manualDoors)
+            {
+                ReplaceWithPrefabInstance(oldDoor, prefabAsset, scene);
+            }
+
+            EditorSceneManager.SaveScene(scene, GameScenePath);
+            AssetDatabase.SaveAssets();
+            Debug.Log($"Converted {manualDoors.Length} manual doors to {PrefabPath} instances in {GameScenePath}.");
         }
 
         private static GameObject CreatePrefabAsset(SimpleDoor source, AudioClip openCloseSound, AudioClip lockedSound)

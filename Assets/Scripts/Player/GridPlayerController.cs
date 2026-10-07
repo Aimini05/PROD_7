@@ -9,7 +9,7 @@ namespace AmazingMaze.Player
     * The player can only face the four cardinal directions.
     * Up arrow steps forward, left/right arrows turn, and Space jumps in place.
     * F interacts with the object directly ahead. Doors do not require a key.
-    * Steps and turns are instant; short delays keep actions separated.
+    * Steps and turns animate smoothly while still ending exactly on the grid.
     */
     [DisallowMultipleComponent]
     [RequireComponent(typeof(CapsuleCollider))]
@@ -20,10 +20,18 @@ namespace AmazingMaze.Player
         [SerializeField] private Vector3 gridOrigin = Vector3.zero;
 
         [Header("Timing")]
-        [Tooltip("Minimum delay after an instant grid step.")]
+        [Tooltip("Time used to smoothly travel to the next tile.")]
         [SerializeField, Min(0.01f)] private float moveDuration = 0.18f;
-        [Tooltip("Minimum delay after an instant 90-degree turn.")]
+        [Tooltip("Time used to smoothly rotate 90 degrees.")]
         [SerializeField, Min(0.01f)] private float turnDuration = 0.14f;
+
+        [Header("Walking audio")]
+        [Tooltip("Optional dedicated source. One is created at runtime when this is empty.")]
+        [SerializeField] private AudioSource footstepAudioSource;
+        [Tooltip("Optional footstep recordings. A quiet generated step is used while this list is empty.")]
+        [SerializeField] private AudioClip[] footstepSounds;
+        [SerializeField, Range(0f, 1f)] private float footstepVolume = 0.65f;
+        [SerializeField, Range(0f, 0.2f)] private float footstepPitchVariation = 0.06f;
 
         [Header("Jump")]
         // Height in Unity units and total time for going up and returning to the tile.
@@ -53,7 +61,7 @@ namespace AmazingMaze.Player
         // Shared event for successful interactions with any Interactable subclass.
         public event Action<Interactable> Interacted;
 
-        public bool IsBusy => isJumping || actionTimeRemaining > 0f;
+        public bool IsBusy => isJumping || isMoving || isTurning;
         // Editor tools read these values so their grid matches movement exactly.
         public float TileSize => tileSize;
         public Vector3 GridOrigin => gridOrigin;
@@ -63,10 +71,18 @@ namespace AmazingMaze.Player
         // Reuse this array for every collision query instead of creating one per step.
         private readonly Collider[] collisionHits = new Collider[16];
         private readonly RaycastHit[] groundHits = new RaycastHit[16];
-        private float actionTimeRemaining;
         private bool isJumping;
         private Vector3 jumpStart;
         private float jumpElapsed;
+        private bool isMoving;
+        private Vector3 moveStart;
+        private Vector3 moveDestination;
+        private float moveElapsed;
+        private bool isTurning;
+        private Quaternion turnStart;
+        private Quaternion turnDestination;
+        private float turnElapsed;
+        private AudioClip generatedFootstep;
 
         private void Awake() {
             // Align the starting position and rotation with the maze grid.
@@ -80,6 +96,7 @@ namespace AmazingMaze.Player
             HeadingQuarterTurns = Mathf.RoundToInt(transform.eulerAngles.y / 90f);
             HeadingQuarterTurns = Mod(HeadingQuarterTurns, 4);
             transform.rotation = Quaternion.Euler(0f, HeadingQuarterTurns * 90f, 0f);
+            PrepareFootstepAudio();
         }
 
         private void Update() {
@@ -97,8 +114,32 @@ namespace AmazingMaze.Player
                 return;
             }
 
-            // Ignore new actions during the step/turn delay or when no keyboard is connected.
-            actionTimeRemaining = Mathf.Max(0f, actionTimeRemaining - Time.deltaTime);
+            if (isMoving) {
+                moveElapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(moveElapsed / Mathf.Max(0.01f, moveDuration));
+                float easedT = t * t * (3f - 2f * t);
+                transform.position = Vector3.LerpUnclamped(moveStart, moveDestination, easedT);
+                if (t >= 1f) {
+                    transform.position = moveDestination;
+                    isMoving = false;
+                    Moved?.Invoke(moveDestination);
+                }
+                return;
+            }
+
+            if (isTurning) {
+                turnElapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(turnElapsed / Mathf.Max(0.01f, turnDuration));
+                float easedT = t * t * (3f - 2f * t);
+                transform.rotation = Quaternion.SlerpUnclamped(turnStart, turnDestination, easedT);
+                if (t >= 1f) {
+                    transform.rotation = turnDestination;
+                    isTurning = false;
+                }
+                return;
+            }
+
+            // Ignore new actions during an animation or when no keyboard is connected.
             Keyboard keyboard = Keyboard.current;
             if (IsBusy || keyboard == null) {
                 return;
@@ -148,10 +189,11 @@ namespace AmazingMaze.Player
                 supported = candidate;
             }
 
-            destination = supported;
-            transform.position = destination;
-            actionTimeRemaining = moveDuration;
-            Moved?.Invoke(destination);
+            moveStart = transform.position;
+            moveDestination = supported;
+            moveElapsed = 0f;
+            isMoving = true;
+            PlayFootstep();
         }
 
         private bool IsDestinationBlocked(Vector3 destination) {
@@ -220,20 +262,87 @@ namespace AmazingMaze.Player
         }
 
         private void Turn(int direction) {
-            // Wrap around the four headings and immediately update the facing direction.
+            // Wrap around the four headings and smoothly rotate to the exact cardinal angle.
             HeadingQuarterTurns = Mod(HeadingQuarterTurns + direction, 4);
-            transform.rotation = Quaternion.Euler(0f, HeadingQuarterTurns * 90f, 0f);
-            actionTimeRemaining = turnDuration;
+            turnStart = transform.rotation;
+            turnDestination = Quaternion.Euler(0f, HeadingQuarterTurns * 90f, 0f);
+            turnElapsed = 0f;
+            isTurning = true;
             Turned?.Invoke(direction);
         }
 
+        private void PrepareFootstepAudio() {
+            if (footstepAudioSource == null) {
+                AudioSource existingSource = GetComponent<AudioSource>();
+                footstepAudioSource = gameObject.AddComponent<AudioSource>();
+                footstepAudioSource.playOnAwake = false;
+                footstepAudioSource.loop = false;
+                footstepAudioSource.spatialBlend = 0f;
+                if (existingSource != null) {
+                    footstepAudioSource.outputAudioMixerGroup = existingSource.outputAudioMixerGroup;
+                }
+            }
+
+            if (HasFootstepClips()) return;
+
+            const int sampleRate = 22050;
+            const float duration = 0.14f;
+            int sampleCount = Mathf.CeilToInt(sampleRate * duration);
+            float[] samples = new float[sampleCount];
+            System.Random random = new System.Random(7319);
+            for (int i = 0; i < sampleCount; i++) {
+                float time = i / (float)sampleRate;
+                float envelope = Mathf.Exp(-time * 30f);
+                float thump = Mathf.Sin(2f * Mathf.PI * 72f * time) * 0.55f;
+                float noise = ((float)random.NextDouble() * 2f - 1f) * 0.22f;
+                samples[i] = (thump + noise) * envelope;
+            }
+
+            generatedFootstep = AudioClip.Create("Generated Footstep", sampleCount, 1, sampleRate, false);
+            generatedFootstep.SetData(samples, 0);
+        }
+
+        private bool HasFootstepClips() {
+            if (footstepSounds == null) return false;
+            for (int i = 0; i < footstepSounds.Length; i++) {
+                if (footstepSounds[i] != null) return true;
+            }
+            return false;
+        }
+
+        private void PlayFootstep() {
+            if (footstepAudioSource == null) return;
+
+            AudioClip clip = generatedFootstep;
+            if (HasFootstepClips()) {
+                int start = UnityEngine.Random.Range(0, footstepSounds.Length);
+                for (int offset = 0; offset < footstepSounds.Length; offset++) {
+                    AudioClip candidate = footstepSounds[(start + offset) % footstepSounds.Length];
+                    if (candidate == null) continue;
+                    clip = candidate;
+                    break;
+                }
+            }
+
+            if (clip == null) return;
+            footstepAudioSource.pitch = 1f + UnityEngine.Random.Range(-footstepPitchVariation, footstepPitchVariation);
+            footstepAudioSource.PlayOneShot(clip, footstepVolume);
+        }
+
         private void OnDisable() {
-            // If the controller is disabled mid-jump, restore the tile position and clear delays.
+            // Finish any partial action at its exact grid-aligned destination.
             if (isJumping) {
                 transform.position = jumpStart;
             }
+            else if (isMoving) {
+                transform.position = moveDestination;
+            }
+            if (isTurning) {
+                transform.rotation = turnDestination;
+            }
             isJumping = false;
-            actionTimeRemaining = 0f;
+            isMoving = false;
+            isTurning = false;
         }
 
         private void SnapToGrid() {
