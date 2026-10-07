@@ -1,10 +1,11 @@
-using UnityEngine;
+using AmazingMaze.Player;
 using System.Collections;
+using UnityEngine;
 
 public class MonsterMovement : MonoBehaviour
 {
     [Header("Grid")]
-    public float gridSize = 1f;
+    public float gridSize = 2f;
 
     [Header("Wandering")]
     public float timeBetweenSteps = 1f;
@@ -56,7 +57,11 @@ public class MonsterMovement : MonoBehaviour
                 Vector3 targetPosition =
                     transform.position + direction * gridSize;
 
-                transform.position = targetPosition;
+                // Gå bara dit om det finns WalkableSurface under rutan
+                if (HasFloor(targetPosition))
+                {
+                    transform.position = targetPosition;
+                }
             }
 
             yield return new WaitForSeconds(timeBetweenSteps);
@@ -75,7 +80,9 @@ public class MonsterMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(whistleGrowlDelay);
 
-        if (whistleResponseGrowl != null && audioSource != null && !playerDead)
+        if (whistleResponseGrowl != null &&
+            audioSource != null &&
+            !playerDead)
         {
             audioSource.PlayOneShot(whistleResponseGrowl);
         }
@@ -87,10 +94,10 @@ public class MonsterMovement : MonoBehaviour
 
         Debug.Log("Monster heard the whistle!");
 
-        // Monstret morrar när det hör visslingen (med fördröjning)
+        // Morra efter fördröjningen
         StartCoroutine(PlayGrowlAfterDelay());
 
-        // Ta tre steg mot platsen där spelaren visslade
+        // Ta steg mot platsen där spelaren visslade
         for (int i = 0; i < stepsTowardsPlayer; i++)
         {
             Vector3 difference =
@@ -118,12 +125,39 @@ public class MonsterMovement : MonoBehaviour
                     : Vector3.back;
             }
 
-            transform.position += direction * gridSize;
+            Vector3 targetPosition =
+                transform.position + direction * gridSize;
+
+            // Gå bara om nästa ruta har WalkableSurface
+            if (HasFloor(targetPosition))
+            {
+                transform.position = targetPosition;
+            }
 
             yield return new WaitForSeconds(whistleStepSpeed);
         }
 
         reactingToWhistle = false;
+    }
+
+    // Kollar om det finns WalkableSurface under positionen
+    bool HasFloor(Vector3 position)
+    {
+        RaycastHit[] hits = Physics.RaycastAll(
+            position + Vector3.up * 2f,
+            Vector3.down,
+            5f
+        );
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.GetComponentInParent<WalkableSurface>() != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // När monstret träffar spelaren
