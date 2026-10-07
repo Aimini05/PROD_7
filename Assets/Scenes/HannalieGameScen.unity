@@ -694,6 +694,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!65 &60764807
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -981,6 +983,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!65 &75053188
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2815,6 +2819,7 @@ GameObject:
   - component: {fileID: 206422747}
   - component: {fileID: 206422749}
   - component: {fileID: 206422748}
+  - component: {fileID: 206422750}
   m_Layer: 0
   m_Name: Text (TMP)_Hallway (1)
   m_TagString: Untagged
@@ -2830,7 +2835,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 206422746}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.64}
   m_LocalScale: {x: 0.28964496, y: 0.28964496, z: 0.28964496}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2838,7 +2843,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 39.84, y: 1.9777}
+  m_AnchoredPosition: {x: 39.84, y: -0}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &206422748
@@ -2985,6 +2990,103 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!82 &206422750
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206422746}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 8013213845963954045, guid: 7450e2734910f644faf2d605402faa19, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: fe25954d7b11ba146bf8ae30f0b8a4db, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 0.5
+  MaxDistance: 5.5
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.928
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &215037154
 GameObject:
   m_ObjectHideFlags: 0
@@ -6961,6 +7063,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!65 &508564921
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7281,6 +7385,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &513579198
 GameObject:
   m_ObjectHideFlags: 0
@@ -8584,6 +8690,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &556019744
 GameObject:
   m_ObjectHideFlags: 0
@@ -9701,6 +9809,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &632869602
 GameObject:
   m_ObjectHideFlags: 0
@@ -10675,6 +10785,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &700903012
 GameObject:
   m_ObjectHideFlags: 0
@@ -10805,6 +10917,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &713622064
 GameObject:
   m_ObjectHideFlags: 0
@@ -10982,6 +11096,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!65 &727360694
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11718,6 +11834,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &788497985
 GameObject:
   m_ObjectHideFlags: 0
@@ -12218,6 +12336,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!65 &833542752
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16377,6 +16497,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &1085488867
 GameObject:
   m_ObjectHideFlags: 0
@@ -17988,6 +18110,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!65 &1145923648
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19785,6 +19909,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &1242854342
 GameObject:
   m_ObjectHideFlags: 0
@@ -20152,6 +20278,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &1262489259
 GameObject:
   m_ObjectHideFlags: 0
@@ -23408,6 +23536,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!65 &1403028086
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28105,6 +28235,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &1615939059
 GameObject:
   m_ObjectHideFlags: 0
@@ -28157,6 +28289,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!65 &1615939062
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31206,6 +31340,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!65 &1826750394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32079,6 +32215,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!65 &1853109160
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32723,6 +32861,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &1903511592
 GameObject:
   m_ObjectHideFlags: 0
@@ -33594,6 +33734,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &2005896318
 GameObject:
   m_ObjectHideFlags: 0
@@ -33724,6 +33866,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!1 &2012897497
 GameObject:
   m_ObjectHideFlags: 0
@@ -35293,6 +35437,8 @@ MonoBehaviour:
   isLocked: 0
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
+  minimumPassableDuration: 1.5
+  closeAfterPassage: 1
 --- !u!65 &2114469593
 BoxCollider:
   m_ObjectHideFlags: 0
