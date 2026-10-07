@@ -3384,6 +3384,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8385239577494679210, guid: 9f87aa96d958edd4d85334b6ca0e33e3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2400000019}
+    - targetCorrespondingSourceObject: {fileID: 8385239577494679210, guid: 9f87aa96d958edd4d85334b6ca0e33e3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2400000020}
   m_SourcePrefab: {fileID: 100100000, guid: 9f87aa96d958edd4d85334b6ca0e33e3, type: 3}
 --- !u!1 &140299409
 GameObject:
@@ -36261,6 +36264,19 @@ MonoBehaviour:
   displayHeight: 0.65
   showTileCenters: 1
   showDoors: 1
+--- !u!114 &2400000020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 744605927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ebf176aac4b1e040a2948bbfa6a99ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  respawnPoint: {fileID: 0}
 --- !u!1001 &3018838872555285737
 PrefabInstance:
   m_ObjectHideFlags: 0

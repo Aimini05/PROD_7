@@ -217,6 +217,14 @@ public class MonsterMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            RespawnPlayer respawn =
+                collision.gameObject.GetComponent<RespawnPlayer>();
+
+            if (respawn != null)
+            {
+                respawn.Respawn();
+            }
+
             PlayerCaught();
         }
     }
