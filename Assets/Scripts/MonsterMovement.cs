@@ -9,6 +9,7 @@ public class MonsterMovement : MonoBehaviour
 
     [Header("Wandering")]
     public float timeBetweenSteps = 1f;
+    public float moveSpeed = 3f;
 
     [Header("Whistle Reaction")]
     public int stepsTowardsPlayer = 3;
@@ -57,10 +58,13 @@ public class MonsterMovement : MonoBehaviour
                 Vector3 targetPosition =
                     transform.position + direction * gridSize;
 
-                // Gå bara dit om det finns WalkableSurface under rutan
+                // Gå bara dit om det finns WalkableSurface
                 if (HasFloor(targetPosition))
                 {
-                    transform.position = targetPosition;
+                    // Glid mjukt till nästa ruta
+                    yield return StartCoroutine(
+                        MoveSmoothly(targetPosition)
+                    );
                 }
             }
 
@@ -68,23 +72,60 @@ public class MonsterMovement : MonoBehaviour
         }
     }
 
+    IEnumerator MoveSmoothly(Vector3 targetPosition)
+    {
+        Vector3 startPosition = transform.position;
+
+        float distance =
+            Vector3.Distance(startPosition, targetPosition);
+
+        float duration = distance / moveSpeed;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = Mathf.Clamp01(
+                elapsed / duration
+            );
+
+            transform.position = Vector3.Lerp(
+                startPosition,
+                targetPosition,
+                t
+            );
+
+            yield return null;
+        }
+
+        // Se till att monstret hamnar exakt på gridrutan
+        transform.position = targetPosition;
+    }
+
     public void HearWhistle(Vector3 playerPosition)
     {
         if (!reactingToWhistle)
         {
-            StartCoroutine(ReactToWhistle(playerPosition));
+            StartCoroutine(
+                ReactToWhistle(playerPosition)
+            );
         }
     }
 
     IEnumerator PlayGrowlAfterDelay()
     {
-        yield return new WaitForSeconds(whistleGrowlDelay);
+        yield return new WaitForSeconds(
+            whistleGrowlDelay
+        );
 
         if (whistleResponseGrowl != null &&
             audioSource != null &&
             !playerDead)
         {
-            audioSource.PlayOneShot(whistleResponseGrowl);
+            audioSource.PlayOneShot(
+                whistleResponseGrowl
+            );
         }
     }
 
@@ -95,7 +136,9 @@ public class MonsterMovement : MonoBehaviour
         Debug.Log("Monster heard the whistle!");
 
         // Morra efter fördröjningen
-        StartCoroutine(PlayGrowlAfterDelay());
+        StartCoroutine(
+            PlayGrowlAfterDelay()
+        );
 
         // Ta steg mot platsen där spelaren visslade
         for (int i = 0; i < stepsTowardsPlayer; i++)
@@ -112,7 +155,8 @@ public class MonsterMovement : MonoBehaviour
 
             Vector3 direction;
 
-            if (Mathf.Abs(difference.x) > Mathf.Abs(difference.z))
+            if (Mathf.Abs(difference.x) >
+                Mathf.Abs(difference.z))
             {
                 direction = difference.x > 0
                     ? Vector3.right
@@ -126,21 +170,28 @@ public class MonsterMovement : MonoBehaviour
             }
 
             Vector3 targetPosition =
-                transform.position + direction * gridSize;
+                transform.position +
+                direction * gridSize;
 
             // Gå bara om nästa ruta har WalkableSurface
             if (HasFloor(targetPosition))
             {
-                transform.position = targetPosition;
+                // Glid mot nästa ruta
+                yield return StartCoroutine(
+                    MoveSmoothly(targetPosition)
+                );
             }
 
-            yield return new WaitForSeconds(whistleStepSpeed);
+            yield return new WaitForSeconds(
+                whistleStepSpeed
+            );
         }
 
         reactingToWhistle = false;
     }
 
-    // Kollar om det finns WalkableSurface under positionen
+    // Kollar om det finns WalkableSurface
+    // under positionen
     bool HasFloor(Vector3 position)
     {
         RaycastHit[] hits = Physics.RaycastAll(
@@ -151,7 +202,8 @@ public class MonsterMovement : MonoBehaviour
 
         foreach (RaycastHit hit in hits)
         {
-            if (hit.collider.GetComponentInParent<WalkableSurface>() != null)
+            if (hit.collider
+                .GetComponentInParent<WalkableSurface>() != null)
             {
                 return true;
             }
@@ -178,9 +230,12 @@ public class MonsterMovement : MonoBehaviour
 
         Debug.Log("PLAYER DIED!");
 
-        if (deathSound != null && audioSource != null)
+        if (deathSound != null &&
+            audioSource != null)
         {
-            audioSource.PlayOneShot(deathSound);
+            audioSource.PlayOneShot(
+                deathSound
+            );
         }
     }
 }
