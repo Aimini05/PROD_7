@@ -908,7 +908,7 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   audioSource: {fileID: 1203563424}
   clipsIgnoreVolume: 0
-  settingsOpenedClip: {fileID: 8300000, guid: bb751292f00b02c4db1f21c54f4fb77c, type: 3}
+  settingsOpenedClip: {fileID: 8300000, guid: 07a1361f8a55383478ff0bc3402dbd34, type: 3}
   masterFocusClip: {fileID: 8300000, guid: 07a1361f8a55383478ff0bc3402dbd34, type: 3}
   masterActivateClip: {fileID: 8300000, guid: 9a95d2a7624445e4faf025b38cece00b, type: 3}
   musicFocusClip: {fileID: 8300000, guid: 90d44ff8649edf343aea0cfc6c9d58e5, type: 3}
@@ -938,16 +938,17 @@ MonoBehaviour:
   - label: 'Space: Jump'
     clip: {fileID: 8300000, guid: 999ada7b7e62d0140b6873147b7172f4, type: 3}
   - label: 'A or Left Arrow: Turn Left'
-    clip: {fileID: 8300000, guid: 9bb93e9156d85a846b84953b90610adb, type: 3}
+    clip: {fileID: 8300000, guid: 328ccb35c73c6b04ea20aca9f45197d7, type: 3}
   - label: 'B or Right Arrow: Turn Right'
-    clip: {fileID: 8300000, guid: b8635eb61b972b6438f6068f00a9654a, type: 3}
+    clip: {fileID: 8300000, guid: 077f5fa34f2e5894990f3b565f5f02d5, type: 3}
   - label: 'Up arrow: Walk forward'
-    clip: {fileID: 8300000, guid: d81b83ea22ef81a4eab2e5f8fb8b080f, type: 3}
+    clip: {fileID: 8300000, guid: 8ba21e041bd4e504f8631f2f6eb9b673, type: 3}
   - label: 'Down Arrow '
-    clip: {fileID: 8300000, guid: dfafc89bba535674f8dab30562046223, type: 3}
+    clip: {fileID: 8300000, guid: 467dfd5955c60d344bfc79228a9e0bf5, type: 3}
   returnFocusClip: {fileID: 8300000, guid: efaf6e589b284cb4abeb4d34a2550ff4, type: 3}
   returnActivateClip: {fileID: 8300000, guid: f37ca7f2bd2fd634eb1b56297df2d330, type: 3}
   inputCooldown: 0.15
+  isInGameScene: 0
 --- !u!114 &1203563421
 MonoBehaviour:
   m_ObjectHideFlags: 0
