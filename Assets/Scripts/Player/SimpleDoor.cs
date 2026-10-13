@@ -7,16 +7,15 @@ namespace AmazingMaze.Player
     [DisallowMultipleComponent]
     public sealed class SimpleDoor : Interactable
     {
-       
         [Header("Door")]
         [Tooltip("Unlocked by default. Enable to test locked-door feedback; no key system is implemented yet.")]
         [SerializeField] private bool isLocked;
 
         [Header("Door sounds")]
-        [Tooltip("A single clip containing the opening sound followed by the closing sound.")]
         [SerializeField] private AudioClip openSound;
+        [SerializeField] private AudioClip closeSound;
         [SerializeField] private AudioClip lockedSound;
-
+        [SerializeField, Range(0f, 2f)] private float interactionSoundVolume = 1f;
 
         [Header("Door proximity sound")]
         [SerializeField] private AudioSource proximityAudioSource;
@@ -26,8 +25,6 @@ namespace AmazingMaze.Player
         [SerializeField, Min(0.1f)] private float proximityMaxDistance = 4f;
 
         [Header("Passage")]
-        [Tooltip("Minimum time the doorway stays clear. The full open/close clip is always allowed to finish first.")]
-        [SerializeField, Min(0.1f)] private float minimumPassableDuration = 1.5f;
         [SerializeField] private bool closeAfterPassage = true;
 
         public bool IsOpen { get; private set; }
@@ -37,8 +34,10 @@ namespace AmazingMaze.Player
         private Collider[] obstacles;
         private bool[] panelEnabledStates;
         private bool[] obstacleEnabledStates;
+        private Bounds[] cachedObstacleBounds; // Sparar dörrens gränser
         private Coroutine closeRoutine;
-        // A sound script can subscribe here to announce that the passage is open.
+        private AudioSource interactionAudioSource;
+
         public event Action Opened;
         public event Action Closed;
         public event Action LockedAttempted;
@@ -46,17 +45,36 @@ namespace AmazingMaze.Player
         private void Awake()
         {
             CacheDoorParts();
+
+            interactionAudioSource = GetComponent<AudioSource>();
+            if (interactionAudioSource == null || interactionAudioSource == proximityAudioSource)
+            {
+                AudioSource[] sources = GetComponents<AudioSource>();
+                foreach (var src in sources)
+                {
+                    if (src != proximityAudioSource)
+                    {
+                        interactionAudioSource = src;
+                        break;
+                    }
+                }
+                if (interactionAudioSource == null || interactionAudioSource == proximityAudioSource)
+                {
+                    interactionAudioSource = gameObject.AddComponent<AudioSource>();
+                }
+            }
+            interactionAudioSource.playOnAwake = false;
+            interactionAudioSource.spatialBlend = 1f;
+
             if (proximityAudioSource != null && proximityCreak != null)
             {
                 proximityAudioSource.clip = proximityCreak;
                 proximityAudioSource.loop = true;
                 proximityAudioSource.playOnAwake = false;
 
-                // Fullt 3D-ljud
                 proximityAudioSource.spatialBlend = 1f;
                 proximityAudioSource.dopplerLevel = 0f;
 
-                // Smooth och tydlig avståndsskillnad
                 proximityAudioSource.rolloffMode = AudioRolloffMode.Linear;
                 proximityAudioSource.minDistance = proximityMinDistance;
                 proximityAudioSource.maxDistance = proximityMaxDistance;
@@ -74,8 +92,6 @@ namespace AmazingMaze.Player
                 closeRoutine = null;
             }
 
-            // Do not leave the scene with invisible/non-solid doors after a script reload
-            // or if a door component is disabled while its passage is open.
             if (IsOpen)
             {
                 SetPassageOpen(false);
@@ -89,10 +105,9 @@ namespace AmazingMaze.Player
             if (IsOpen) return false;
             if (isLocked)
             {
-                // Avoid stacking many copies of the locked sound when F is pressed rapidly.
                 if (Time.unscaledTime >= nextLockedSoundTime)
                 {
-                    PlayInteractionSound(lockedSound);
+                    PlayCustomSound(lockedSound);
                     nextLockedSoundTime = Time.unscaledTime + 0.25f;
                 }
                 LockedAttempted?.Invoke();
@@ -113,15 +128,18 @@ namespace AmazingMaze.Player
 
             CacheDoorParts();
             IsOpen = true;
-            // Keep this GameObject active so the combined open/close sound can finish.
-            PlayInteractionSound(openSound);
+            PlayCustomSound(openSound);
             SetPassageOpen(true);
             Physics.SyncTransforms();
             Opened?.Invoke();
 
             if (closeAfterPassage)
             {
-                closeRoutine = StartCoroutine(CloseWhenSafe(player));
+                if (player == null)
+                {
+                    player = FindFirstObjectByType<GridPlayerController>();
+                }
+                closeRoutine = StartCoroutine(CloseWhenPlayerHasPassed(player));
             }
         }
 
@@ -135,42 +153,76 @@ namespace AmazingMaze.Player
                 closeRoutine = null;
             }
 
+            PlayCustomSound(closeSound);
             SetPassageOpen(false);
             IsOpen = false;
             Physics.SyncTransforms();
             Closed?.Invoke();
         }
 
-        private IEnumerator CloseWhenSafe(GridPlayerController player)
+        private IEnumerator CloseWhenPlayerHasPassed(GridPlayerController player)
         {
-            // The supplied clip already contains the closing sound, so keep the physical
-            // passage open through the whole clip (and for at least the configured window).
-            float clipDuration = openSound != null ? openSound.length : 0f;
-            yield return new WaitForSeconds(Mathf.Max(minimumPassableDuration, clipDuration));
+            float clipDuration = openSound != null ? openSound.length : 1f;
+            yield return new WaitForSeconds(clipDuration);
 
-            // Never recreate a solid door around the player. This also makes the timing
-            // forgiving for players who navigate primarily by sound.
-            while (player != null && IsPlayerInsideDoorway(player))
+            if (player != null)
             {
-                yield return null;
+                // Spara dörrens position som referenspunkt
+                Vector3 doorPosition = transform.position;
+
+                // Mät avståndet till spelaren när dörren öppnades (borde vara ca 1 tile bort)
+                float initialDistance = Vector3.Distance(player.transform.position, doorPosition);
+
+                float timeWaited = 0f;
+                float maxWaitTime = 6f;
+                bool playerMovedThrough = false;
+
+                // 1. Vänta tills spelaren antingen går närmare (kliver in i dörren) eller flyttar sig bort
+                while (timeWaited < maxWaitTime)
+                {
+                    float currentDistance = Vector3.Distance(player.transform.position, doorPosition);
+
+                    // Om spelaren har gått igenom (avståndet ökar eller de har passerat dörren)
+                    if (currentDistance > initialDistance + 0.5f || IsPlayerInsideCachedBounds(player))
+                    {
+                        playerMovedThrough = true;
+                        break;
+                    }
+
+                    timeWaited += Time.deltaTime;
+                    yield return null;
+                }
+
+                // 2. Om spelaren gick in i/igenom dörren, vänta tills de är minst 1.5 tiles bort
+                if (playerMovedThrough)
+                {
+                    while (Vector3.Distance(player.transform.position, doorPosition) < player.TileSize * 1.2f)
+                    {
+                        yield return null;
+                    }
+                }
             }
 
+            // 3. Kort paus så spelaren hinner ta ett steg till innan dörren slår igen
+            yield return new WaitForSeconds(0.3f);
+
             closeRoutine = null;
+            PlayCustomSound(closeSound);
             SetPassageOpen(false);
             IsOpen = false;
             Physics.SyncTransforms();
             Closed?.Invoke();
         }
 
-        private bool IsPlayerInsideDoorway(GridPlayerController player)
+        private bool IsPlayerInsideCachedBounds(GridPlayerController player)
         {
             Collider playerCollider = player.GetComponent<Collider>();
             if (playerCollider == null) return false;
 
             Bounds playerBounds = playerCollider.bounds;
-            for (int i = 0; i < obstacles.Length; i++)
+            for (int i = 0; i < cachedObstacleBounds.Length; i++)
             {
-                if (obstacles[i] != null && obstacles[i].bounds.Intersects(playerBounds))
+                if (cachedObstacleBounds[i].Intersects(playerBounds))
                 {
                     return true;
                 }
@@ -181,15 +233,20 @@ namespace AmazingMaze.Player
 
         private void CacheDoorParts()
         {
-            if (panels != null && obstacles != null) return;
+            if (panels != null && obstacles != null && cachedObstacleBounds != null) return;
 
             panels = GetComponentsInChildren<Renderer>(true);
             obstacles = GetComponentsInChildren<Collider>(true);
             panelEnabledStates = new bool[panels.Length];
             obstacleEnabledStates = new bool[obstacles.Length];
+            cachedObstacleBounds = new Bounds[obstacles.Length];
 
             for (int i = 0; i < panels.Length; i++) panelEnabledStates[i] = panels[i].enabled;
-            for (int i = 0; i < obstacles.Length; i++) obstacleEnabledStates[i] = obstacles[i].enabled;
+            for (int i = 0; i < obstacles.Length; i++)
+            {
+                obstacleEnabledStates[i] = obstacles[i].enabled;
+                cachedObstacleBounds[i] = obstacles[i].bounds; // Spara storleken medan dörren är stängd
+            }
         }
 
         private void SetPassageOpen(bool open)
@@ -205,7 +262,12 @@ namespace AmazingMaze.Player
             }
         }
 
-        // Future key/inventory code can unlock the door without replacing its sound logic.
+        private void PlayCustomSound(AudioClip clip)
+        {
+            if (clip == null || interactionAudioSource == null) return;
+            interactionAudioSource.PlayOneShot(clip, interactionSoundVolume);
+        }
+
         public void SetLocked(bool locked)
         {
             isLocked = locked;

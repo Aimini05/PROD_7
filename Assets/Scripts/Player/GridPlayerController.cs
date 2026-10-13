@@ -4,10 +4,6 @@ using UnityEngine.InputSystem;
 
 namespace AmazingMaze.Player
 {
-    /*
-    * First-person, tile-by-tile movement for the prototype.
-    * Direct directional movement without changing the player's gaze/rotation direction.
-    */
     [DisallowMultipleComponent]
     [RequireComponent(typeof(CapsuleCollider))]
     public sealed class GridPlayerController : MonoBehaviour
@@ -17,7 +13,6 @@ namespace AmazingMaze.Player
         [SerializeField] private Vector3 gridOrigin = Vector3.zero;
 
         [Header("Timing")]
-        [Tooltip("Time used to smoothly travel to the next tile.")]
         [SerializeField, Min(0.01f)] private float moveDuration = 0.18f;
 
         [Header("Walking audio")]
@@ -146,8 +141,6 @@ namespace AmazingMaze.Player
 
         private void TryMoveInDirection(Vector3 worldDirection)
         {
-            // Blickriktningen (transform.rotation) rörs inte alls här!
-
             Vector3 destination = transform.position + worldDirection * tileSize;
             Vector3 supported = transform.position;
             Physics.SyncTransforms();
@@ -233,12 +226,23 @@ namespace AmazingMaze.Player
         {
             Physics.SyncTransforms();
             Vector3 origin = transform.position + Vector3.up * (collisionHeight * 0.5f);
-            if (!Physics.Raycast(origin, DirectionFromHeading(HeadingQuarterTurns), out RaycastHit hit,
-                interactionDistance, obstacleLayers, QueryTriggerInteraction.Ignore)) return;
-            Interactable target = hit.collider.GetComponentInParent<Interactable>();
-            if (target == null || !target.isActiveAndEnabled || !target.Interact(this)) return;
-            Interacted?.Invoke(target);
-            if (target is SimpleDoor door) DoorOpened?.Invoke(door);
+
+            // Kolla i alla 4 riktningar efter dörrar/objekt
+            Vector3[] directions = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left };
+
+            foreach (var dir in directions)
+            {
+                if (Physics.Raycast(origin, dir, out RaycastHit hit, interactionDistance, obstacleLayers, QueryTriggerInteraction.Ignore))
+                {
+                    Interactable target = hit.collider.GetComponentInParent<Interactable>();
+                    if (target != null && target.isActiveAndEnabled && target.Interact(this))
+                    {
+                        Interacted?.Invoke(target);
+                        if (target is SimpleDoor door) DoorOpened?.Invoke(door);
+                        return;
+                    }
+                }
+            }
         }
 
         private void PrepareFootstepAudio()
