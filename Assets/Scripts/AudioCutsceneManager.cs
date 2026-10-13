@@ -8,6 +8,10 @@ public class AudioCutsceneManager : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip cutsceneClip;
 
+    [Header("Controls Audio")]
+    [Tooltip("Ljudklippet med kontroller som spelas efter cutscenen.")]
+    public AudioClip controlsClip;
+
     [Header("Scene Transition")]
     [Tooltip("Type the exact name of the scene you want to load next.")]
     public string nextSceneName = "GameScene";
@@ -16,6 +20,7 @@ public class AudioCutsceneManager : MonoBehaviour
     public bool allowSkip = true;
 
     private bool isLoadingNextScene = false;
+    private bool isPlayingControls = false;
 
     private void Start()
     {
@@ -28,24 +33,52 @@ public class AudioCutsceneManager : MonoBehaviour
             audioSource.Play();
         }
 
-        StartCoroutine(WaitForAudioToEnd());
+        StartCoroutine(PlayCutsceneSequence());
     }
 
     private void Update()
     {
-        // Allow player to skip the audio cutscene by pressing Space, Enter, or Escape
         if (allowSkip && !isLoadingNextScene)
         {
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Escape))
             {
-                LoadNextScene();
+                if (!isPlayingControls && controlsClip != null)
+                {
+                    StopAllCoroutines();
+                    StartCoroutine(PlayControlsSequence());
+                }
+                else
+                {
+                    LoadNextScene();
+                }
             }
         }
     }
 
-    private IEnumerator WaitForAudioToEnd()
+    private IEnumerator PlayCutsceneSequence()
     {
-        // Wait until the audio finishes playing
+        // Vänta tills cutscenen har spelat klart
+        yield return new WaitWhile(() => audioSource.isPlaying);
+
+        // Om det finns ett kontroll-ljud, starta det
+        if (controlsClip != null)
+        {
+            yield return StartCoroutine(PlayControlsSequence());
+        }
+        else
+        {
+            LoadNextScene();
+        }
+    }
+
+    private IEnumerator PlayControlsSequence()
+    {
+        isPlayingControls = true;
+        audioSource.Stop();
+        audioSource.clip = controlsClip;
+        audioSource.Play();
+
+        // Vänta tills kontroll-ljudet har spelat klart
         yield return new WaitWhile(() => audioSource.isPlaying);
 
         LoadNextScene();
