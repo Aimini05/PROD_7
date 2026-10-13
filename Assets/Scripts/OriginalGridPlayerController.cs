@@ -1,4 +1,4 @@
-using System;
+/*using System;
 
 using UnityEngine;
 
@@ -22,7 +22,7 @@ namespace AmazingMaze.Player
 
     * Steps and turns animate smoothly while still ending exactly on the grid.
 
-    */
+    
 
     [DisallowMultipleComponent]
 
@@ -807,3 +807,4 @@ namespace AmazingMaze.Player
 
 }
 
+*/
