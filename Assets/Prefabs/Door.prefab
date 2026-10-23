@@ -130,10 +130,12 @@ MonoBehaviour:
   interactionAudioSource: {fileID: 224443611570345354}
   interactionVolume: 1
   isLocked: 0
+  consumeKey: 1
   openSound: {fileID: 8300000, guid: bc5999003f0f11a4ba0860f427a32812, type: 3}
   closeSound: {fileID: 8300000, guid: 5688cf193613ffd43aa8aea49bb8d548, type: 3}
   lockedSound: {fileID: 8300000, guid: 2d502266451943641990f824788ce8bc, type: 3}
-  interactionSoundVolume: 1
+  unlockSound: {fileID: 8300000, guid: f89ab69c9c8a3bf4b8eae9ec7149cbe1, type: 3}
+  interactionSoundVolume: 0.396
   proximityAudioSource: {fileID: 2349891432760080221}
   proximityCreak: {fileID: 8300000, guid: 38b18199bafd14c44ab18b320b0365e0, type: 3}
   proximityVolume: 1
