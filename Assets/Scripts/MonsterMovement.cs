@@ -1,13 +1,15 @@
 using AmazingMaze.Player;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement; // Krävs för att ladda om scenen
+using UnityEngine.SceneManagement;
 
 public class MonsterMovement : MonoBehaviour
 {
-    [Header("Walking Growl Volume")]
+    [Header("Volumes")]
     [Range(0f, 1f)]
     public float walkingGrowlVolume = 0.5f;
+    [Range(0f, 1f)]
+    public float deathSoundVolume = 1.0f; // Egen volym för dödsrösten
 
     [Header("Grid")]
     public float gridSize = 2f;
@@ -22,14 +24,14 @@ public class MonsterMovement : MonoBehaviour
     public float whistleGrowlDelay = 3f;
 
     [Header("Audio")]
-    public AudioSource audioSource;
+    public AudioSource audioSource; // Endast en AudioSource behövs!
     public AudioClip walkingGrowl;
     public AudioClip whistleResponseGrowl;
     public AudioClip deathSound;
 
     private bool reactingToWhistle = false;
     private bool playerDead = false;
-    private bool waitingForRestart = false; // Håller koll på om vi väntar på Enter
+    private bool waitingForRestart = false;
 
     private Vector3[] directions =
     {
@@ -43,10 +45,11 @@ public class MonsterMovement : MonoBehaviour
     {
         StartCoroutine(Wander());
 
-        // Lågt kontinuerligt ljud från monstret
+        // Sätt igång det löpande morrandet med dess specifika volym
         if (walkingGrowl != null && audioSource != null)
         {
             audioSource.clip = walkingGrowl;
+            audioSource.volume = walkingGrowlVolume;
             audioSource.loop = true;
             audioSource.Play();
         }
@@ -54,13 +57,10 @@ public class MonsterMovement : MonoBehaviour
 
     void Update()
     {
-        // Om spelaren är död och vi väntar på att de ska trycka på Enter för att starta om
         if (waitingForRestart && Input.GetKeyDown(KeyCode.Return))
         {
-            // Återställ tidsskalan innan vi laddar om scenen
+            AudioListener.pause = false;
             Time.timeScale = 1f;
-
-            // Laddar om den aktiva scenen (börjar om leveln)
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
@@ -93,7 +93,6 @@ public class MonsterMovement : MonoBehaviour
 
         while (elapsed < duration)
         {
-            // Använd Mathf.Abs / deltaTime, men eftersom vi pausar vid dödsfall är detta säkert
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
             transform.position = Vector3.Lerp(startPosition, targetPosition, t);
@@ -163,7 +162,7 @@ public class MonsterMovement : MonoBehaviour
 
     bool HasFloor(Vector3 position)
     {
-        RaycastHit[] hits = Physics.RaycastAll(position + Vector3.up * Vector3.up.y * 2f, Vector3.down, 5f); // Korrigerat till standard Vector3.up * 2f
+        RaycastHit[] hits = Physics.RaycastAll(position + Vector3.up * 2f, Vector3.down, 5f);
 
         foreach (RaycastHit hit in hits)
         {
@@ -180,7 +179,16 @@ public class MonsterMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && !playerDead)
         {
-            // Vi tar bort det gamla direkt-respawn-anropet härifrån
+            // Stäng av spelarens rörelseskript direkt vid krock
+            MonoBehaviour[] playerScripts = collision.gameObject.GetComponents<MonoBehaviour>();
+            foreach (MonoBehaviour script in playerScripts)
+            {
+                if (script != this)
+                {
+                    script.enabled = false;
+                }
+            }
+
             PlayerCaught();
         }
     }
@@ -193,27 +201,30 @@ public class MonsterMovement : MonoBehaviour
         playerDead = true;
         Debug.Log("PLAYER DIED!");
 
-        // Starta en coroutine som hanterar ljudet och pausen
+        // Stoppa monstrets vanliga ljud direkt
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+
         StartCoroutine(HandleDeathSequence());
     }
 
     IEnumerator HandleDeathSequence()
     {
-        // Spela upp dödsljudet. Eftersom vi kommer pausa spelet (Time.timeScale = 0) 
-        // kan vi använda PlayClipAtPoint så att ljudet spelas klart oberoende av tids-skalan, 
-        // eller AudioSource med ignoreListenerPause = true. 
-        // Här är ett smidigt sätt via AudioSource om den är satt till att ignorera paus:
+        // 1. Tysta allt annat ljud i spelet
+        AudioListener.pause = true;
+
+        // 2. Byt till dödsljudets volym på samma AudioSource och spela upp det
         if (audioSource != null && deathSound != null)
         {
             audioSource.ignoreListenerPause = true;
+            audioSource.volume = deathSoundVolume; // Sätter separat volym direkt här!
             audioSource.PlayOneShot(deathSound);
         }
 
-        // Räkna ut hur lång tid döds-ljudet är så vi vet hur länge vi ska vänta
+        // 3. Vänta tills döds-ljudet har spelat klart
         float audioLength = (deathSound != null) ? deathSound.length : 2f;
-
-        // Pausa spelet (observera att WaitForSeconds inte fungerar när Time.timeScale = 0, 
-        // så vi använder unscaled tid)
         float timer = 0f;
         while (timer < audioLength)
         {
@@ -221,11 +232,8 @@ public class MonsterMovement : MonoBehaviour
             yield return null;
         }
 
-        // Pausa hela spelet helt efter att ljudet har spelats klart (eller medan det spelas, 
-        // beroende på om du vill att ljudet ska spelas under paus)
+        // 4. Pausa spelet helt och hållet och aktivera Enter-omstart
         Time.timeScale = 0f;
-
-        // Tillåt nu att avlyssna Enter-tangenten i Update
         waitingForRestart = true;
     }
 }
