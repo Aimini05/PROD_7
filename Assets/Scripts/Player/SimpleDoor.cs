@@ -39,7 +39,7 @@ namespace AmazingMaze.Player
         private bool[] obstacleEnabledStates;
         private Bounds[] cachedObstacleBounds; // Sparar dörrens gränser
         private Coroutine closeRoutine;
-        private AudioSource interactionAudioSource;
+        private AudioSource doorAudioSource;
 
         public event Action Opened;
         public event Action Closed;
@@ -49,25 +49,25 @@ namespace AmazingMaze.Player
         {
             CacheDoorParts();
 
-            interactionAudioSource = GetComponent<AudioSource>();
-            if (interactionAudioSource == null || interactionAudioSource == proximityAudioSource)
+            doorAudioSource = GetComponent<AudioSource>();
+            if (doorAudioSource == null || doorAudioSource == proximityAudioSource)
             {
                 AudioSource[] sources = GetComponents<AudioSource>();
                 foreach (var src in sources)
                 {
                     if (src != proximityAudioSource)
                     {
-                        interactionAudioSource = src;
+                        doorAudioSource = src;
                         break;
                     }
                 }
-                if (interactionAudioSource == null || interactionAudioSource == proximityAudioSource)
+                if (doorAudioSource == null || doorAudioSource == proximityAudioSource)
                 {
-                    interactionAudioSource = gameObject.AddComponent<AudioSource>();
+                    doorAudioSource = gameObject.AddComponent<AudioSource>();
                 }
             }
-            interactionAudioSource.playOnAwake = false;
-            interactionAudioSource.spatialBlend = 1f;
+            doorAudioSource.playOnAwake = false;
+            doorAudioSource.spatialBlend = 1f;
 
             if (proximityAudioSource != null && proximityCreak != null)
             {
@@ -284,8 +284,8 @@ namespace AmazingMaze.Player
 
         private void PlayCustomSound(AudioClip clip)
         {
-            if (clip == null || interactionAudioSource == null) return;
-            interactionAudioSource.PlayOneShot(clip, interactionSoundVolume);
+            if (clip == null || doorAudioSource == null) return;
+            doorAudioSource.PlayOneShot(clip, interactionSoundVolume);
         }
 
         public void SetLocked(bool locked)
