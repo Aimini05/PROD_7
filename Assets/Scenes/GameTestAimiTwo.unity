@@ -24233,7 +24233,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 063a4d84fdf0cda4899cfa26f01cd6f5, type: 3}
     - target: {fileID: 5448593855856632776, guid: 9ff8afd2b7509274eb8b626e445041cc, type: 3}
       propertyPath: wanderInterval
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5448593855856632776, guid: 9ff8afd2b7509274eb8b626e445041cc, type: 3}
       propertyPath: enableWandering
