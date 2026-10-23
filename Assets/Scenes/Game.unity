@@ -2367,21 +2367,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3275264837068474383, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6800716437156183512, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
       propertyPath: m_Name
       value: Key
       objectReference: {fileID: 0}
     - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -70.7
+      value: 8.91
       objectReference: {fileID: 0}
     - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.321
+      value: 1.205
       objectReference: {fileID: 0}
     - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 24.808928
+      value: 11.04
       objectReference: {fileID: 0}
     - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2428,6 +2432,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848603185}
     m_Modifications:
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: isLocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: consumeKey
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2564497051687919799, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
       propertyPath: m_Name
       value: Door (14)
@@ -4265,6 +4277,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848603185}
     m_Modifications:
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: consumeKey
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2564497051687919799, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
       propertyPath: m_Name
       value: Door (17)
@@ -4735,6 +4751,71 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &252968772
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3275264837068474383, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800716437156183512, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_Name
+      value: Key (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -14.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.205
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895403898563060084, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7398376247428360562, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
+      propertyPath: listener
+      value: 
+      objectReference: {fileID: 744605934}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 43bb3575a76a7474eb0571f7ad98af42, type: 3}
 --- !u!1 &258682285
 GameObject:
   m_ObjectHideFlags: 0
@@ -5417,6 +5498,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848603185}
     m_Modifications:
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: consumeKey
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2564497051687919799, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
       propertyPath: m_Name
       value: Door (16)
@@ -5737,6 +5822,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848603185}
     m_Modifications:
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: consumeKey
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2564497051687919799, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
       propertyPath: m_Name
       value: Door (22)
@@ -7039,6 +7128,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848603185}
     m_Modifications:
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: isLocked
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: consumeKey
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: unlockSound
+      value: 
+      objectReference: {fileID: 8300000, guid: f89ab69c9c8a3bf4b8eae9ec7149cbe1, type: 3}
     - target: {fileID: 2564497051687919799, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
       propertyPath: m_Name
       value: Door (18)
@@ -7631,6 +7732,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848603185}
     m_Modifications:
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: isLocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: consumeKey
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2564497051687919799, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
       propertyPath: m_Name
       value: Door (20)
@@ -7693,6 +7802,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848603185}
     m_Modifications:
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: consumeKey
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2564497051687919799, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
       propertyPath: m_Name
       value: Door (19)
@@ -8332,6 +8445,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848603185}
     m_Modifications:
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: consumeKey
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2564497051687919799, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
       propertyPath: m_Name
       value: Door (13)
@@ -11411,7 +11528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffa27c237703e24297980ac9b19b2d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
-  hasKey: 0
+  keyCount: 0
 --- !u!4 &744605934 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6775270929309056794, guid: 9f87aa96d958edd4d85334b6ca0e33e3, type: 3}
@@ -20635,6 +20752,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848603185}
     m_Modifications:
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: consumeKey
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2564497051687919799, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
       propertyPath: m_Name
       value: Door (23)
@@ -25223,6 +25344,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848603185}
     m_Modifications:
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: consumeKey
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2564497051687919799, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
       propertyPath: m_Name
       value: Door (15)
@@ -35148,6 +35273,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848603185}
     m_Modifications:
+    - target: {fileID: 2528885997551074093, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
+      propertyPath: consumeKey
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2564497051687919799, guid: f9bdb3deaf86c8b4b98ca250ec9f7f20, type: 3}
       propertyPath: m_Name
       value: Door (21)
@@ -36698,6 +36827,7 @@ SceneRoots:
   - {fileID: 654561872}
   - {fileID: 397252417}
   - {fileID: 90032145}
+  - {fileID: 252968772}
   - {fileID: 1505670388}
   - {fileID: 590686711}
   - {fileID: 2048200495}
