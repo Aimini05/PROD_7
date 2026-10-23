@@ -8,13 +8,16 @@ namespace AmazingMaze.Player
     public sealed class SimpleDoor : Interactable
     {
         [Header("Door")]
-        [Tooltip("Unlocked by default. Enable to test locked-door feedback; no key system is implemented yet.")]
+        [Tooltip("Unlocked by default. Enable to make the door require a key (PlayerInventory).")]
         [SerializeField] private bool isLocked;
+        [Tooltip("Av = nyckeln förbrukas inte, en nyckel öppnar alla dörrar.")]
+        [SerializeField] private bool consumeKey = true;
 
         [Header("Door sounds")]
         [SerializeField] private AudioClip openSound;
         [SerializeField] private AudioClip closeSound;
         [SerializeField] private AudioClip lockedSound;
+        [SerializeField] private AudioClip unlockSound;
         [SerializeField, Range(0f, 2f)] private float interactionSoundVolume = 1f;
 
         [Header("Door proximity sound")]
@@ -103,16 +106,33 @@ namespace AmazingMaze.Player
         public override bool Interact(GridPlayerController player)
         {
             if (IsOpen) return false;
+
             if (isLocked)
             {
-                if (Time.unscaledTime >= nextLockedSoundTime)
+                PlayerInventory inventory = null;
+                if (player != null)
                 {
-                    PlayCustomSound(lockedSound);
-                    nextLockedSoundTime = Time.unscaledTime + 0.25f;
+                    inventory = player.GetComponentInParent<PlayerInventory>();
+                    if (inventory == null) inventory = player.GetComponentInChildren<PlayerInventory>();
                 }
-                LockedAttempted?.Invoke();
-                return false;
+
+                if (inventory != null && inventory.UseKey(consumeKey))
+                {
+                    isLocked = false;
+                    PlayCustomSound(unlockSound);
+                }
+                else
+                {
+                    if (Time.unscaledTime >= nextLockedSoundTime)
+                    {
+                        PlayCustomSound(lockedSound);
+                        nextLockedSoundTime = Time.unscaledTime + 0.25f;
+                    }
+                    LockedAttempted?.Invoke();
+                    return false;
+                }
             }
+
             Open(player);
             return true;
         }
@@ -157,120 +177,3 @@ namespace AmazingMaze.Player
             SetPassageOpen(false);
             IsOpen = false;
             Physics.SyncTransforms();
-            Closed?.Invoke();
-        }
-
-        private IEnumerator CloseWhenPlayerHasPassed(GridPlayerController player)
-        {
-            float clipDuration = openSound != null ? openSound.length : 1f;
-            yield return new WaitForSeconds(clipDuration);
-
-            if (player != null)
-            {
-                // Spara dörrens position som referenspunkt
-                Vector3 doorPosition = transform.position;
-
-                // Mät avståndet till spelaren när dörren öppnades (borde vara ca 1 tile bort)
-                float initialDistance = Vector3.Distance(player.transform.position, doorPosition);
-
-                float timeWaited = 0f;
-                float maxWaitTime = 6f;
-                bool playerMovedThrough = false;
-
-                // 1. Vänta tills spelaren antingen går närmare (kliver in i dörren) eller flyttar sig bort
-                while (timeWaited < maxWaitTime)
-                {
-                    float currentDistance = Vector3.Distance(player.transform.position, doorPosition);
-
-                    // Om spelaren har gått igenom (avståndet ökar eller de har passerat dörren)
-                    if (currentDistance > initialDistance + 0.5f || IsPlayerInsideCachedBounds(player))
-                    {
-                        playerMovedThrough = true;
-                        break;
-                    }
-
-                    timeWaited += Time.deltaTime;
-                    yield return null;
-                }
-
-                // 2. Om spelaren gick in i/igenom dörren, vänta tills de är minst 1.5 tiles bort
-                if (playerMovedThrough)
-                {
-                    while (Vector3.Distance(player.transform.position, doorPosition) < player.TileSize * 1.2f)
-                    {
-                        yield return null;
-                    }
-                }
-            }
-
-            // 3. Kort paus så spelaren hinner ta ett steg till innan dörren slår igen
-            yield return new WaitForSeconds(0.3f);
-
-            closeRoutine = null;
-            PlayCustomSound(closeSound);
-            SetPassageOpen(false);
-            IsOpen = false;
-            Physics.SyncTransforms();
-            Closed?.Invoke();
-        }
-
-        private bool IsPlayerInsideCachedBounds(GridPlayerController player)
-        {
-            Collider playerCollider = player.GetComponent<Collider>();
-            if (playerCollider == null) return false;
-
-            Bounds playerBounds = playerCollider.bounds;
-            for (int i = 0; i < cachedObstacleBounds.Length; i++)
-            {
-                if (cachedObstacleBounds[i].Intersects(playerBounds))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private void CacheDoorParts()
-        {
-            if (panels != null && obstacles != null && cachedObstacleBounds != null) return;
-
-            panels = GetComponentsInChildren<Renderer>(true);
-            obstacles = GetComponentsInChildren<Collider>(true);
-            panelEnabledStates = new bool[panels.Length];
-            obstacleEnabledStates = new bool[obstacles.Length];
-            cachedObstacleBounds = new Bounds[obstacles.Length];
-
-            for (int i = 0; i < panels.Length; i++) panelEnabledStates[i] = panels[i].enabled;
-            for (int i = 0; i < obstacles.Length; i++)
-            {
-                obstacleEnabledStates[i] = obstacles[i].enabled;
-                cachedObstacleBounds[i] = obstacles[i].bounds; // Spara storleken medan dörren är stängd
-            }
-        }
-
-        private void SetPassageOpen(bool open)
-        {
-            for (int i = 0; i < panels.Length; i++)
-            {
-                if (panels[i] != null) panels[i].enabled = open ? false : panelEnabledStates[i];
-            }
-
-            for (int i = 0; i < obstacles.Length; i++)
-            {
-                if (obstacles[i] != null) obstacles[i].enabled = open ? false : obstacleEnabledStates[i];
-            }
-        }
-
-        private void PlayCustomSound(AudioClip clip)
-        {
-            if (clip == null || interactionAudioSource == null) return;
-            interactionAudioSource.PlayOneShot(clip, interactionSoundVolume);
-        }
-
-        public void SetLocked(bool locked)
-        {
-            isLocked = locked;
-        }
-    }
-}

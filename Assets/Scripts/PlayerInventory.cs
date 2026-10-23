@@ -2,11 +2,17 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public bool hasKey = false;
+    public int keyCount = 0;
 
-    // Anropas av dörren när nyckeln används
-    public void UseKey()
+    public bool HasKey => keyCount > 0;
+
+    public void AddKey() => keyCount++;
+
+    // Returnerar true om det fanns en nyckel
+    public bool UseKey(bool consume = true)
     {
-        hasKey = false;
+        if (keyCount <= 0) return false;
+        if (consume) keyCount--;
+        return true;
     }
 }
