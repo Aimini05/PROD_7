@@ -158,6 +158,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf0ace7693c034e4f9bd1b7c3f07f7b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  spawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  player: {fileID: 0}
+  minimumSpawnDistance: 8
+  randomizeSpawnOnStart: 1
+  enableWandering: 1
+  wanderInterval: 8
+  wanderTileSize: 1
+  secondsPerStep: 0.6
+  wanderObstacleLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   audioSource: {fileID: 2637251046177489846}
   barkSound: {fileID: 8300000, guid: 421a25df80069574a9bf41e238f1d4fb, type: 3}
   collisionSound: {fileID: 0}

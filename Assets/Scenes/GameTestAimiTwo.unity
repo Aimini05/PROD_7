@@ -11430,7 +11430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffa27c237703e24297980ac9b19b2d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
-  hasKey: 0
+  keyCount: 0
 --- !u!4 &744605934 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6775270929309056794, guid: 9f87aa96d958edd4d85334b6ca0e33e3, type: 3}
@@ -24231,18 +24231,6 @@ PrefabInstance:
       propertyPath: collisionSound
       value: 
       objectReference: {fileID: 8300000, guid: 063a4d84fdf0cda4899cfa26f01cd6f5, type: 3}
-    - target: {fileID: 5448593855856632776, guid: 9ff8afd2b7509274eb8b626e445041cc, type: 3}
-      propertyPath: wanderInterval
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5448593855856632776, guid: 9ff8afd2b7509274eb8b626e445041cc, type: 3}
-      propertyPath: enableWandering
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5448593855856632776, guid: 9ff8afd2b7509274eb8b626e445041cc, type: 3}
-      propertyPath: spawnPoints.Array.size
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 5448593855856632776, guid: 9ff8afd2b7509274eb8b626e445041cc, type: 3}
       propertyPath: 'spawnPoints.Array.data[0]'
       value: 

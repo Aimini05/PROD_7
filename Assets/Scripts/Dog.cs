@@ -38,6 +38,10 @@ public class Dog : MonoBehaviour
     public AudioClip barkSound;
     public AudioClip collisionSound;
 
+    // Keep this latched across movement and disable/enable cycles.
+    // A new dog instance (for example after a scene reload) starts fresh.
+    private bool hasPlayedCollisionSound;
+
     [Header("Timing")]
     public float barkDelay = 3f;
 
@@ -265,11 +269,14 @@ public class Dog : MonoBehaviour
         Debug.Log("Dog heard the whistle and barked!");
     }
 
-    // Spelas endast när spelaren går in i trigger-zonen
+    // Play the proximity voice line only once for this dog instance.
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && audioSource != null && collisionSound != null)
+        if (!hasPlayedCollisionSound && other.CompareTag("Player")
+            && audioSource != null && collisionSound != null)
         {
+            // Latch before playback: multiple colliders can enter in the same frame.
+            hasPlayedCollisionSound = true;
             audioSource.PlayOneShot(collisionSound);
         }
     }
