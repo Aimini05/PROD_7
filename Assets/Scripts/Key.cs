@@ -1,78 +1,61 @@
 using UnityEngine;
 
-public class Key : MonoBehaviour
+namespace AmazingMaze.Player
 {
-    [Header("Audio")]
-    public AudioSource audioSource;
-    public AudioClip shimmerSound;  // loopas tills nyckeln plockas upp
-    public AudioClip pickupSound;   // spelas en gång
-
-    [Header("Pickup")]
-    public KeyCode pickupKey = KeyCode.F;
-
-    private PlayerInventory playerInRange;
-    private bool pickedUp = false;
-
-    void Start()
+    public sealed class Key : Interactable
     {
-        if (audioSource != null && shimmerSound != null)
+        [Header("Audio")]
+        public AudioSource audioSource;
+        public AudioClip shimmerSound;  // loopas tills nyckeln plockas upp
+        public AudioClip pickupSound;   // spelas en gång
+
+        private bool pickedUp = false;
+
+        void Start()
         {
-            audioSource.clip = shimmerSound;
-            audioSource.loop = true;
-            audioSource.Play();
-        }
-    }
-
-    void Update()
-    {
-        if (!pickedUp && playerInRange != null && Input.GetKeyDown(pickupKey))
-        {
-            PickUp();
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = other.GetComponentInParent<PlayerInventory>();
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = null;
-        }
-    }
-
-    void PickUp()
-    {
-        pickedUp = true;
-        playerInRange.hasKey = true;
-
-        // Stäng av shimmer och spela pickup-ljudet en gång
-        float destroyDelay = 0f;
-        if (audioSource != null)
-        {
-            audioSource.Stop();
-            audioSource.loop = false;
-
-            if (pickupSound != null)
+            if (audioSource != null && shimmerSound != null)
             {
-                audioSource.PlayOneShot(pickupSound);
-                destroyDelay = pickupSound.length;
+                audioSource.clip = shimmerSound;
+                audioSource.loop = true;
+                audioSource.Play();
             }
         }
 
-        // Göm nyckeln direkt, men låt objektet leva tills ljudet spelats klart
-        foreach (Renderer r in GetComponentsInChildren<Renderer>())
-            r.enabled = false;
-        foreach (Collider c in GetComponentsInChildren<Collider>())
-            c.enabled = false;
+        public override bool Interact(GridPlayerController player)
+        {
+            if (pickedUp || player == null) return false;
 
-        Debug.Log("Player picked up the key!");
-        Destroy(gameObject, destroyDelay);
+            PlayerInventory inventory = player.GetComponentInParent<PlayerInventory>();
+            if (inventory == null) inventory = player.GetComponentInChildren<PlayerInventory>();
+            if (inventory == null)
+            {
+                Debug.LogWarning("Key: hittar ingen PlayerInventory på spelaren.");
+                return false;
+            }
+
+            pickedUp = true;
+            inventory.AddKey();
+
+            float destroyDelay = 0f;
+            if (audioSource != null)
+            {
+                audioSource.Stop();
+                audioSource.loop = false;
+
+                if (pickupSound != null)
+                {
+                    audioSource.PlayOneShot(pickupSound);
+                    destroyDelay = pickupSound.length;
+                }
+            }
+
+            foreach (Renderer r in GetComponentsInChildren<Renderer>())
+                r.enabled = false;
+            foreach (Collider c in GetComponentsInChildren<Collider>())
+                c.enabled = false;
+
+            Destroy(gameObject, destroyDelay);
+            return true;
+        }
     }
 }

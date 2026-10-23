@@ -8,13 +8,16 @@ namespace AmazingMaze.Player
     public sealed class SimpleDoor : Interactable
     {
         [Header("Door")]
-        [Tooltip("Unlocked by default. Enable to test locked-door feedback; no key system is implemented yet.")]
+        [Tooltip("Unlocked by default. Enable to make the door require a key (PlayerInventory).")]
         [SerializeField] private bool isLocked;
+        [Tooltip("Av = nyckeln förbrukas inte, en nyckel öppnar alla dörrar.")]
+        [SerializeField] private bool consumeKey = true;
 
         [Header("Door sounds")]
         [SerializeField] private AudioClip openSound;
         [SerializeField] private AudioClip closeSound;
         [SerializeField] private AudioClip lockedSound;
+        [SerializeField] private AudioClip unlockSound;
         [SerializeField, Range(0f, 2f)] private float interactionSoundVolume = 1f;
 
         [Header("Door proximity sound")]
@@ -103,16 +106,33 @@ namespace AmazingMaze.Player
         public override bool Interact(GridPlayerController player)
         {
             if (IsOpen) return false;
+
             if (isLocked)
             {
-                if (Time.unscaledTime >= nextLockedSoundTime)
+                PlayerInventory inventory = null;
+                if (player != null)
                 {
-                    PlayCustomSound(lockedSound);
-                    nextLockedSoundTime = Time.unscaledTime + 0.25f;
+                    inventory = player.GetComponentInParent<PlayerInventory>();
+                    if (inventory == null) inventory = player.GetComponentInChildren<PlayerInventory>();
                 }
-                LockedAttempted?.Invoke();
-                return false;
+
+                if (inventory != null && inventory.UseKey(consumeKey))
+                {
+                    isLocked = false;
+                    PlayCustomSound(unlockSound);
+                }
+                else
+                {
+                    if (Time.unscaledTime >= nextLockedSoundTime)
+                    {
+                        PlayCustomSound(lockedSound);
+                        nextLockedSoundTime = Time.unscaledTime + 0.25f;
+                    }
+                    LockedAttempted?.Invoke();
+                    return false;
+                }
             }
+
             Open(player);
             return true;
         }
