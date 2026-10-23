@@ -5959,6 +5959,18 @@ PrefabInstance:
       propertyPath: gridSize
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4239536020727204262, guid: dc6a625da2b22ea469ec59161040d9c4, type: 3}
+      propertyPath: whistleGrowlDelay
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239536020727204262, guid: dc6a625da2b22ea469ec59161040d9c4, type: 3}
+      propertyPath: walkingGrowlVolume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239536020727204262, guid: dc6a625da2b22ea469ec59161040d9c4, type: 3}
+      propertyPath: whistleResponseGrowl
+      value: 
+      objectReference: {fileID: 8300000, guid: 463101077d6f4de4db96e252c19cdbfa, type: 3}
     - target: {fileID: 6297838680453537034, guid: dc6a625da2b22ea469ec59161040d9c4, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -24135,6 +24147,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5448593855856632776, guid: 9ff8afd2b7509274eb8b626e445041cc, type: 3}
+      propertyPath: barkDelay
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5448593855856632776, guid: 9ff8afd2b7509274eb8b626e445041cc, type: 3}
       propertyPath: collisionSound
       value: 
       objectReference: {fileID: 8300000, guid: 063a4d84fdf0cda4899cfa26f01cd6f5, type: 3}
@@ -34423,6 +34439,18 @@ PrefabInstance:
       propertyPath: gridSize
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4239536020727204262, guid: dc6a625da2b22ea469ec59161040d9c4, type: 3}
+      propertyPath: whistleGrowlDelay
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239536020727204262, guid: dc6a625da2b22ea469ec59161040d9c4, type: 3}
+      propertyPath: walkingGrowlVolume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239536020727204262, guid: dc6a625da2b22ea469ec59161040d9c4, type: 3}
+      propertyPath: whistleResponseGrowl
+      value: 
+      objectReference: {fileID: 8300000, guid: 463101077d6f4de4db96e252c19cdbfa, type: 3}
     - target: {fileID: 6297838680453537034, guid: dc6a625da2b22ea469ec59161040d9c4, type: 3}
       propertyPath: m_Layer
       value: 8
