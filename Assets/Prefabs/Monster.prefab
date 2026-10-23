@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6213308644331639050}
   - component: {fileID: 1301175436329173321}
   - component: {fileID: 6826297407841514383}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 2041656211028633492}
   - component: {fileID: 6401901183934895621}
   - component: {fileID: 6842320283733257468}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.302
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -268,15 +268,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5acf693123958e64fa434a37bc45924a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  walkingGrowlVolume: 0.3
+  deathSoundVolume: 1
   gridSize: 2
   timeBetweenSteps: 1
   moveSpeed: 3
   stepsTowardsPlayer: 3
   whistleStepSpeed: 0.4
-  whistleGrowlDelay: 3
+  whistleGrowlDelay: 0.5
   audioSource: {fileID: 6612793216226592716}
   walkingGrowl: {fileID: 8300000, guid: 638ba02f144d2534e80dcc8f64cfb3cb, type: 3}
-  whistleResponseGrowl: {fileID: 8300000, guid: 5b0938bedd487014ea4bb097091ca5f0, type: 3}
+  whistleResponseGrowl: {fileID: 8300000, guid: 463101077d6f4de4db96e252c19cdbfa, type: 3}
   deathSound: {fileID: 8300000, guid: 581acdecc94d2f14bab981f46b589fe7, type: 3}
 --- !u!65 &1025796258113575087
 BoxCollider:
@@ -324,7 +326,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!169 &6401901183934895621
 AudioLowPassFilter:
