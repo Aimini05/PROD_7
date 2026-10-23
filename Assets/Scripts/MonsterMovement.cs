@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement; // Krävs för att ladda om scenen
 
 public class MonsterMovement : MonoBehaviour
 {
+    [Header("Walking Growl Volume")]
+    [Range(0f, 1f)]
+    public float walkingGrowlVolume = 0.5f;
+
     [Header("Grid")]
     public float gridSize = 2f;
 
