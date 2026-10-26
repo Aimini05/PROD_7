@@ -22,6 +22,7 @@ public class PlayerWhistle : MonoBehaviour
 
     void Whistle()
     {
+        PlaytestLogger.Whistle(transform.position);
         // Spela ett slumpat visselljud
         if (whistleSounds != null && whistleSounds.Length > 0 && audioSource != null)
         {

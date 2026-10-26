@@ -179,6 +179,7 @@ public class MonsterMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && !playerDead)
         {
+            PlaytestLogger.PlayerCaught(collision.transform.position);
             // Stäng av spelarens rörelseskript direkt vid krock
             MonoBehaviour[] playerScripts = collision.gameObject.GetComponents<MonoBehaviour>();
             foreach (MonoBehaviour script in playerScripts)

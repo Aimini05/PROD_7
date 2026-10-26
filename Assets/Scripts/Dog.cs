@@ -272,6 +272,9 @@ public class Dog : MonoBehaviour
     // Play the proximity voice line only once for this dog instance.
     private void OnTriggerEnter(Collider other)
     {
+        // Log reaching the dog independently of whether a voice clip is assigned.
+        if (other.CompareTag("Player"))
+            PlaytestLogger.DogReached(other.transform.position);
         if (!hasPlayedCollisionSound && other.CompareTag("Player")
             && audioSource != null && collisionSound != null)
         {

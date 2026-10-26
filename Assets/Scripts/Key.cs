@@ -35,6 +35,7 @@ namespace AmazingMaze.Player
 
             pickedUp = true;
             inventory.AddKey();
+            PlaytestLogger.KeyCollected(transform, player.transform.position, inventory.keyCount);
 
             float destroyDelay = 0f;
             if (audioSource != null)

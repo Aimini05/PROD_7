@@ -119,10 +119,14 @@ namespace AmazingMaze.Player
                 if (inventory != null && inventory.UseKey(consumeKey))
                 {
                     isLocked = false;
+                    PlaytestLogger.DoorUnlocked(transform, player.transform.position, inventory.keyCount);
                     PlayCustomSound(unlockSound);
                 }
                 else
                 {
+                    if (player != null)
+                        PlaytestLogger.LockedDoorBlocked(transform, player.transform.position,
+                            inventory != null ? inventory.keyCount : -1);
                     if (Time.unscaledTime >= nextLockedSoundTime)
                     {
                         PlayCustomSound(lockedSound);
@@ -152,6 +156,15 @@ namespace AmazingMaze.Player
             SetPassageOpen(true);
             Physics.SyncTransforms();
             Opened?.Invoke();
+
+            // Only player-driven openings are telemetry, not scripted Open() calls.
+            if (player != null)
+            {
+                PlayerInventory inventory = player.GetComponentInParent<PlayerInventory>();
+                if (inventory == null) inventory = player.GetComponentInChildren<PlayerInventory>();
+                PlaytestLogger.DoorOpened(transform, player.transform.position,
+                    inventory != null ? inventory.keyCount : -1);
+            }
 
             if (closeAfterPassage)
             {
