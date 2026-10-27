@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Dog : MonoBehaviour
 {
@@ -37,6 +38,9 @@ public class Dog : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip barkSound;
     public AudioClip collisionSound;
+
+    [Header("Ending")]
+    public float fadeOutDuration = 2f;
 
     // Keep this latched across movement and disable/enable cycles.
     // A new dog instance (for example after a scene reload) starts fresh.
@@ -270,17 +274,97 @@ public class Dog : MonoBehaviour
     }
 
     // Play the proximity voice line only once for this dog instance.
+
     private void OnTriggerEnter(Collider other)
     {
-        // Log reaching the dog independently of whether a voice clip is assigned.
-        if (other.CompareTag("Player"))
-            PlaytestLogger.DogReached(other.transform.position);
-        if (!hasPlayedCollisionSound && other.CompareTag("Player")
-            && audioSource != null && collisionSound != null)
-        {
-            // Latch before playback: multiple colliders can enter in the same frame.
-            hasPlayedCollisionSound = true;
-            audioSource.PlayOneShot(collisionSound);
-        }
+        if (!other.CompareTag("Player"))
+            return;
+
+        if (hasPlayedCollisionSound)
+            return;
+
+        PlaytestLogger.DogReached(other.transform.position);
+
+        if (audioSource == null || collisionSound == null)
+            return;
+
+        hasPlayedCollisionSound = true;
+
+        StartCoroutine(EndGame());
     }
+
+
+
+    private IEnumerator EndGame()
+    {
+        enableWandering = false;
+        StopWandering();
+
+        // Samla alla aktiva ljudkällor
+        AudioSource[] sources =
+            FindObjectsByType<AudioSource>(
+                FindObjectsSortMode.None
+            );
+
+        float[] startVolumes = new float[sources.Length];
+
+        for (int i = 0; i < sources.Length; i++)
+        {
+            if (sources[i] != null)
+                startVolumes[i] = sources[i].volume;
+        }
+
+        // Stoppa hundens tidigare ljud
+        audioSource.Stop();
+
+        // Starta avslutningsfrasen direkt
+        audioSource.PlayOneShot(collisionSound);
+
+        // Tona ut övriga ljud samtidigt
+        float duration = Mathf.Max(0.01f, fadeOutDuration);
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+
+            for (int i = 0; i < sources.Length; i++)
+            {
+                AudioSource source = sources[i];
+
+                if (source != null && source != audioSource)
+                {
+                    source.volume =
+                        Mathf.Lerp(startVolumes[i], 0f, t);
+                }
+            }
+
+            yield return null;
+        }
+
+        // Stoppa övriga ljud efter uttoningen
+        for (int i = 0; i < sources.Length; i++)
+        {
+            AudioSource source = sources[i];
+
+            if (source != null && source != audioSource)
+            {
+                source.Stop();
+                source.volume = startVolumes[i];
+            }
+        }
+
+        // Vänta tills avslutningsfrasen är färdig
+        float remainingTime =
+            Mathf.Max(0f, collisionSound.length - duration);
+
+        yield return new WaitForSecondsRealtime(
+            remainingTime + 1f
+        );
+
+        SceneManager.LoadScene("Menutest");
+    }
+
+
 }
