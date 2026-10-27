@@ -2858,6 +2858,7 @@ GameObject:
   - component: {fileID: 120947019}
   - component: {fileID: 120947018}
   - component: {fileID: 120947017}
+  - component: {fileID: 120947022}
   m_Layer: 10
   m_Name: TV (1)
   m_TagString: Untagged
@@ -3055,6 +3056,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 590686711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &120947022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120947016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
 --- !u!1 &122173721
 GameObject:
   m_ObjectHideFlags: 0
@@ -3945,6 +3959,7 @@ GameObject:
   - component: {fileID: 193023648}
   - component: {fileID: 193023647}
   - component: {fileID: 193023646}
+  - component: {fileID: 193023650}
   m_Layer: 0
   m_Name: Shelf (11)
   m_TagString: Untagged
@@ -4045,6 +4060,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1588173281}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &193023650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193023645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
 --- !u!1 &213620366
 GameObject:
   m_ObjectHideFlags: 0
@@ -7985,6 +8013,7 @@ GameObject:
   - component: {fileID: 485384174}
   - component: {fileID: 485384173}
   - component: {fileID: 485384172}
+  - component: {fileID: 485384177}
   m_Layer: 0
   m_Name: TV (1)
   m_TagString: Untagged
@@ -8182,6 +8211,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1588173281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &485384177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485384171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
 --- !u!1 &490040018
 GameObject:
   m_ObjectHideFlags: 0
@@ -10123,6 +10165,8 @@ GameObject:
   - component: {fileID: 628683668}
   - component: {fileID: 628683667}
   - component: {fileID: 628683666}
+  - component: {fileID: 628683671}
+  - component: {fileID: 628683672}
   m_Layer: 10
   m_Name: Bed (1)
   m_TagString: Untagged
@@ -10320,6 +10364,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 590686711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &628683671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628683665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
+--- !u!114 &628683672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628683665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 0
 --- !u!1 &629250445
 GameObject:
   m_ObjectHideFlags: 0
@@ -16293,6 +16363,7 @@ GameObject:
   - component: {fileID: 1058062812}
   - component: {fileID: 1058062811}
   - component: {fileID: 1058062810}
+  - component: {fileID: 1058062814}
   m_Layer: 10
   m_Name: CouchTABLE (1)
   m_TagString: Untagged
@@ -16393,6 +16464,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 590686711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1058062814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058062809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
 --- !u!114 &1058119846 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2790099813897377274, guid: 4d677f902088d8b4e978fdb9a98806b3, type: 3}
@@ -25539,6 +25623,7 @@ GameObject:
   - component: {fileID: 1495481217}
   - component: {fileID: 1495481216}
   - component: {fileID: 1495481215}
+  - component: {fileID: 1495481219}
   m_Layer: 10
   m_Name: Shelf (11)
   m_TagString: Untagged
@@ -25639,6 +25724,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 590686711}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1495481219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495481214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
 --- !u!1 &1500345643
 GameObject:
   m_ObjectHideFlags: 0
@@ -27681,6 +27779,7 @@ GameObject:
   - component: {fileID: 1570305363}
   - component: {fileID: 1570305362}
   - component: {fileID: 1570305361}
+  - component: {fileID: 1570305365}
   m_Layer: 0
   m_Name: Shelf (12)
   m_TagString: Untagged
@@ -27781,6 +27880,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1588173281}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1570305365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570305360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
 --- !u!1 &1571849159
 GameObject:
   m_ObjectHideFlags: 0
@@ -28088,6 +28200,7 @@ GameObject:
   - component: {fileID: 1595672412}
   - component: {fileID: 1595672411}
   - component: {fileID: 1595672410}
+  - component: {fileID: 1595672414}
   m_Layer: 10
   m_Name: Shelf (12)
   m_TagString: Untagged
@@ -28188,6 +28301,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 590686711}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1595672414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595672409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
 --- !u!1 &1596222502
 GameObject:
   m_ObjectHideFlags: 0
@@ -28425,6 +28551,7 @@ GameObject:
   - component: {fileID: 1602399305}
   - component: {fileID: 1602399304}
   - component: {fileID: 1602399303}
+  - component: {fileID: 1602399308}
   m_Layer: 0
   m_Name: Fireplace (1)
   m_TagString: Untagged
@@ -28624,6 +28751,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1588173281}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1602399308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602399302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
 --- !u!1 &1606585608
 GameObject:
   m_ObjectHideFlags: 0
@@ -30074,6 +30214,7 @@ GameObject:
   - component: {fileID: 1715129906}
   - component: {fileID: 1715129905}
   - component: {fileID: 1715129904}
+  - component: {fileID: 1715129909}
   m_Layer: 10
   m_Name: Fireplace (1)
   m_TagString: Untagged
@@ -30273,6 +30414,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 590686711}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1715129909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715129903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
 --- !u!1 &1738251134
 GameObject:
   m_ObjectHideFlags: 0
@@ -31196,6 +31350,7 @@ GameObject:
   - component: {fileID: 1776251839}
   - component: {fileID: 1776251838}
   - component: {fileID: 1776251837}
+  - component: {fileID: 1776251841}
   m_Layer: 0
   m_Name: CouchTABLE (1)
   m_TagString: Untagged
@@ -31296,6 +31451,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1588173281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1776251841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776251836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
 --- !u!1 &1797424679
 GameObject:
   m_ObjectHideFlags: 0
@@ -35140,6 +35308,7 @@ GameObject:
   - component: {fileID: 2048200493}
   - component: {fileID: 2048200492}
   - component: {fileID: 2048200491}
+  - component: {fileID: 2048200496}
   m_Layer: 0
   m_Name: refrigerator
   m_TagString: Untagged
@@ -35339,6 +35508,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2048200496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048200490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
 --- !u!1 &2062140191
 GameObject:
   m_ObjectHideFlags: 0
@@ -36856,6 +37038,8 @@ GameObject:
   - component: {fileID: 2133386641}
   - component: {fileID: 2133386640}
   - component: {fileID: 2133386639}
+  - component: {fileID: 2133386643}
+  - component: {fileID: 2133386644}
   m_Layer: 10
   m_Name: Couch (3)
   m_TagString: Untagged
@@ -36956,6 +37140,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 590686711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2133386643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133386638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 1
+--- !u!114 &2133386644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133386638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2405987c8c77741a5d252351bb7579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.BumpSurface
+  surfaceType: 0
 --- !u!114 &2400000019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37006,6 +37216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AmazingMaze.Player.WallBumpAudio
   audioSource: {fileID: 2400000022}
   wallBumpSound: {fileID: 8300000, guid: 8824f69d871368840a43526a8ba3eb8f, type: 3}
+  furnitureBumpSound: {fileID: 8300000, guid: 732c23188ef36eb47ab9cf9a32320b08, type: 3}
   volume: 0.491
 --- !u!1001 &3018838872555285737
 PrefabInstance:

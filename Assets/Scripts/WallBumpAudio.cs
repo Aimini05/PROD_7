@@ -9,6 +9,7 @@ namespace AmazingMaze.Player
         [SerializeField] private AudioSource audioSource;
         [Tooltip("Ljudklippet för när spelaren slår i en vägg.")]
         [SerializeField] private AudioClip wallBumpSound;
+        [SerializeField] private AudioClip furnitureBumpSound;
         [SerializeField, Range(0f, 1f)] private float volume = 0.75f;
 
         private GridPlayerController playerController;
@@ -34,8 +35,8 @@ namespace AmazingMaze.Player
         {
             if (playerController != null)
             {
-                // Lyssna på när spelaren stoppas av en vägg
                 playerController.MoveBlocked += OnMoveBlocked;
+                playerController.ObstacleBlocked += OnObstacleBlocked;
             }
         }
 
@@ -44,14 +45,48 @@ namespace AmazingMaze.Player
             if (playerController != null)
             {
                 playerController.MoveBlocked -= OnMoveBlocked;
+                playerController.ObstacleBlocked -= OnObstacleBlocked;
             }
         }
 
+        private bool handledObstacle;
+
         private void OnMoveBlocked(Vector3 blockedPosition)
         {
-            if (wallBumpSound != null && audioSource != null)
+            if (handledObstacle)
             {
-                audioSource.PlayOneShot(wallBumpSound, volume);
+                handledObstacle = false;
+                return;
+            }
+
+            PlaySound(wallBumpSound);
+        }
+
+        private void OnObstacleBlocked(Collider obstacle)
+        {
+            handledObstacle = true;
+
+            AudioClip selectedSound = wallBumpSound;
+
+            if (obstacle != null)
+            {
+                BumpSurface surface = obstacle.GetComponentInParent<BumpSurface>();
+
+                if (surface != null &&
+                    surface.surfaceType == BumpSurface.SurfaceType.Furniture)
+                {
+                    selectedSound = furnitureBumpSound;
+                }
+            }
+
+            PlaySound(selectedSound);
+        }
+
+        private void PlaySound(AudioClip clip)
+        {
+            if (clip != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(clip, volume);
             }
         }
     }

@@ -40,6 +40,7 @@ namespace AmazingMaze.Player
         public event Action<Vector3> Moved;
         public event Action<int> Turned;
         public event Action<Vector3> MoveBlocked;
+        public event Action<Collider> ObstacleBlocked;
         public event Action<SimpleDoor> DoorOpened;
         public event Action<Interactable> Interacted;
 
@@ -156,8 +157,9 @@ namespace AmazingMaze.Player
                     return;
                 }
                 candidate.y = groundHeight;
-                if (IsDestinationBlocked(candidate))
+                if (IsDestinationBlocked(candidate, out Collider obstacle))
                 {
+                    ObstacleBlocked?.Invoke(obstacle);
                     MoveBlocked?.Invoke(destination);
                     return;
                 }
@@ -171,25 +173,40 @@ namespace AmazingMaze.Player
             PlayFootstep();
         }
 
-        private bool IsDestinationBlocked(Vector3 destination)
+        private bool IsDestinationBlocked(Vector3 destination,out Collider obstacle)
         {
-            Vector3 halfExtents = new Vector3(collisionRadius, collisionHeight * 0.5f, collisionRadius);
-            Vector3 center = destination + Vector3.up * (collisionHeight * 0.5f + 0.05f);
+            obstacle = null;
+
+            Vector3 halfExtents = new Vector3(
+                collisionRadius,
+                collisionHeight * 0.5f,
+                collisionRadius
+            );
+
+            Vector3 center = destination +
+                Vector3.up * (collisionHeight * 0.5f + 0.05f);
+
             int hitCount = Physics.OverlapBoxNonAlloc(
                 center,
                 halfExtents,
                 collisionHits,
                 Quaternion.identity,
                 obstacleLayers,
-                QueryTriggerInteraction.Ignore);
+                QueryTriggerInteraction.Ignore
+            );
 
             for (int i = 0; i < hitCount; i++)
             {
-                if (collisionHits[i].transform != transform && !collisionHits[i].transform.IsChildOf(transform))
+                Collider hit = collisionHits[i];
+
+                if (hit.transform != transform &&
+                    !hit.transform.IsChildOf(transform))
                 {
+                    obstacle = hit;
                     return true;
                 }
             }
+
             return hitCount == collisionHits.Length;
         }
 
