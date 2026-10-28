@@ -371,7 +371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioCutsceneManager
   audioSource: {fileID: 910438131}
   cutsceneClip: {fileID: 8300000, guid: 120c250e46c229a4b9f5ec734509b3c4, type: 3}
-  controlsClip: {fileID: 8300000, guid: ede1cc6ede54f7642a440f7d72225205, type: 3}
+  controlsClip: {fileID: 8300000, guid: 70d16c25f83cbcb46ac02031d34aa6b6, type: 3}
   nextSceneName: Game
   allowSkip: 1
 --- !u!4 &1213309443
