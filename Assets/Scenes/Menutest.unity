@@ -909,6 +909,11 @@ MonoBehaviour:
   audioSource: {fileID: 1203563424}
   clipsIgnoreVolume: 0
   settingsOpenedClip: {fileID: 8300000, guid: 07a1361f8a55383478ff0bc3402dbd34, type: 3}
+  navigateClip: {fileID: 8300000, guid: d35dff7987a5f7149b83a12ab0b4e62d, type: 3}
+  selectClip: {fileID: 8300000, guid: ccb7b2d85d0eeac4bb7d84c41bfcf517, type: 3}
+  navigateVolume: 0.5
+  selectVolume: 0.506
+  uiOutput: {fileID: 0}
   masterFocusClip: {fileID: 8300000, guid: 07a1361f8a55383478ff0bc3402dbd34, type: 3}
   masterActivateClip: {fileID: 8300000, guid: 9a95d2a7624445e4faf025b38cece00b, type: 3}
   musicFocusClip: {fileID: 8300000, guid: 90d44ff8649edf343aea0cfc6c9d58e5, type: 3}
@@ -1039,6 +1044,11 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   menuOpenedClip: {fileID: 8300000, guid: f37ca7f2bd2fd634eb1b56297df2d330, type: 3}
   inputCooldown: 0.15
+  navigateClip: {fileID: 8300000, guid: d35dff7987a5f7149b83a12ab0b4e62d, type: 3}
+  selectClip: {fileID: 8300000, guid: ccb7b2d85d0eeac4bb7d84c41bfcf517, type: 3}
+  navigateVolume: 0.5
+  selectVolume: 0.518
+  uiOutput: {fileID: 0}
 --- !u!82 &1203563424
 AudioSource:
   m_ObjectHideFlags: 0

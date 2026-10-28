@@ -35,6 +35,15 @@ public class HannalieMenu : MonoBehaviour
     public bool clipsIgnoreVolume = false;
     public AudioClip settingsOpenedClip;
 
+    [Header("Navigation Sounds")]
+    public AudioClip navigateClip;
+    public AudioClip selectClip;
+    [Range(0f, 1f)] public float navigateVolume = 0.5f;
+    [Range(0f, 1f)] public float selectVolume = 0.8f;
+    public AudioMixerGroup uiOutput; // valfri, t.ex. din SFX-grupp
+
+    private AudioSource uiSource;
+
     [Header("Master Volume Option")]
     public AudioClip masterFocusClip;
     public AudioClip masterActivateClip;
@@ -107,6 +116,10 @@ public class HannalieMenu : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
 
         audioSource.playOnAwake = false;
+
+        uiSource = gameObject.AddComponent<AudioSource>();
+        uiSource.playOnAwake = false;
+        uiSource.outputAudioMixerGroup = uiOutput;
 
         masterVol = PlayerPrefs.GetInt(MasterKey, 100);
         musicVol = PlayerPrefs.GetInt(MusicKey, 100);
@@ -229,6 +242,7 @@ public class HannalieMenu : MonoBehaviour
     private void MoveSelection(int dir)
     {
         selected = (selected + dir + OptionCount) % OptionCount;
+        PlayUI(navigateClip, navigateVolume);
 
         switch (selected)
         {
@@ -244,6 +258,8 @@ public class HannalieMenu : MonoBehaviour
 
     private void ActivateSelected()
     {
+        PlayUI(selectClip, selectVolume);
+
         switch (selected)
         {
             case OptionMaster:
@@ -273,6 +289,7 @@ public class HannalieMenu : MonoBehaviour
     private void MoveControl(int dir)
     {
         controlIndex = (controlIndex + dir + controls.Count) % controls.Count;
+        PlayUI(navigateClip, navigateVolume);
         PlayControl();
         RefreshLabels();
     }
@@ -366,5 +383,11 @@ public class HannalieMenu : MonoBehaviour
         audioSource.ignoreListenerVolume = clipsIgnoreVolume;
         audioSource.clip = clip;
         audioSource.Play();
+    }
+
+    private void PlayUI(AudioClip clip, float volume)
+    {
+        if (clip != null && uiSource != null)
+            uiSource.PlayOneShot(clip, volume);
     }
 }
